@@ -1,9 +1,6 @@
-import { betterAuth } from 'better-auth'
-import { tanstackStartCookies } from 'better-auth/tanstack-start'
+import { createAuthClient } from '@neondatabase/neon-js/auth'
+import { BetterAuthReactAdapter } from '@neondatabase/neon-js/auth/react'
 
-export const auth = betterAuth({
-  emailAndPassword: {
-    enabled: true,
-  },
-  plugins: [tanstackStartCookies()],
+export const authClient = createAuthClient(import.meta.env.VITE_NEON_AUTH_URL, {
+  adapter: BetterAuthReactAdapter(),
 })

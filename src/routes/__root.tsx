@@ -3,18 +3,20 @@ import {
   Scripts,
   createRootRouteWithContext,
 } from '@tanstack/react-router'
-import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
-import { TanStackDevtools } from '@tanstack/react-devtools'
-import Footer from '../components/Footer'
-import Header from '../components/Header'
 
+// import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
+// import { TanStackDevtools } from '@tanstack/react-devtools'
+// import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
+
+import { NeonAuthUIProvider } from '@neondatabase/auth/react'
 import TanStackQueryProvider from '../integrations/tanstack-query/root-provider'
-
-import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
 
 import appCss from '../styles.css?url'
 
 import type { QueryClient } from '@tanstack/react-query'
+import { Header } from '#/components/ui/custom/Header'
+import { Footer } from '#/components/ui/custom/Footer'
+import { authClient } from '#/lib/auth'
 
 interface MyRouterContext {
   queryClient: QueryClient
@@ -48,28 +50,30 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className="h-full">
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
         <HeadContent />
       </head>
-      <body className="font-sans antialiased [overflow-wrap:anywhere] selection:bg-[rgba(79,184,178,0.24)]">
+      <body className="font-sans antialiased wrap-anywhere min-h-screen flex flex-col">
         <TanStackQueryProvider>
-          <Header />
-          {children}
-          <Footer />
-          <TanStackDevtools
-            config={{
-              position: 'bottom-right',
-            }}
-            plugins={[
-              {
-                name: 'Tanstack Router',
-                render: <TanStackRouterDevtoolsPanel />,
-              },
-              TanStackQueryDevtools,
-            ]}
-          />
+          <NeonAuthUIProvider authClient={authClient}>
+            <Header />
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </NeonAuthUIProvider>
+          {/* <TanStackDevtools */}
+          {/*   config={{ */}
+          {/*     position: 'bottom-right', */}
+          {/*   }} */}
+          {/*   plugins={[ */}
+          {/*     { */}
+          {/*       name: 'Tanstack Router', */}
+          {/*       render: <TanStackRouterDevtoolsPanel />, */}
+          {/*     }, */}
+          {/*     TanStackQueryDevtools, */}
+          {/*   ]} */}
+          {/* /> */}
         </TanStackQueryProvider>
         <Scripts />
       </body>

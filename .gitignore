@@ -11,3 +11,5 @@ dist-ssr
 .vinxi
 __unconfig*
 todos.json
+/.claude/skills/neon-postgres/SKILL.md
+/skills-lock.json
