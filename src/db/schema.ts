@@ -51,7 +51,7 @@ export const products = pgTable('products', {
 
 export const carts = pgTable('carts', {
     id: uuid('id').primaryKey().defaultRandom(),
-    userId: text('user_id').unique().notNull(),
+    userId: text('user_id').notNull(),
     createdAt: timestamp('created_at').defaultNow()
 });
 
@@ -78,4 +78,12 @@ export const orders = pgTable('orders', {
     createdAt: timestamp('created_at').defaultNow()
 });
 
-export const orderItems = pgTable('order_items');
+export const orderItems = pgTable('order_items', {
+    id: uuid('id').primaryKey().defaultRandom(),
+    orderId: uuid('order_id').references(() => orders.id),
+    productId: uuid('product_id').references(() => products.id),
+    productName: varchar('product_name', { length: 255 }),
+    unitPrice: integer('unit_price').notNull(),
+    quantity: integer('quantity').notNull(),
+    imageUrl: text('image_url')
+});

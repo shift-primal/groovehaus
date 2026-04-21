@@ -1,82 +1,64 @@
-import {
-  HeadContent,
-  Scripts,
-  createRootRouteWithContext,
-} from '@tanstack/react-router'
+import { HeadContent, Scripts, createRootRouteWithContext } from '@tanstack/react-router';
+import TanStackQueryProvider from '../integrations/tanstack-query/root-provider';
+import type { QueryClient } from '@tanstack/react-query';
 
-// import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
-// import { TanStackDevtools } from '@tanstack/react-devtools'
-// import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
+import { NeonAuthUIProvider } from '@neondatabase/auth/react';
 
-import { NeonAuthUIProvider } from '@neondatabase/auth/react'
-import TanStackQueryProvider from '../integrations/tanstack-query/root-provider'
+import appCss from '#/styles/globals.css?url';
 
-import appCss from '../styles.css?url'
-
-import type { QueryClient } from '@tanstack/react-query'
-import { Header } from '#/components/ui/custom/Header'
-import { Footer } from '#/components/ui/custom/Footer'
-import { authClient } from '#/lib/auth'
+import { Header } from '#/components/layout/Header';
+import { Footer } from '#/components/layout/Footer';
+import { authClient } from '#/lib/auth';
 
 interface MyRouterContext {
-  queryClient: QueryClient
+    queryClient: QueryClient;
 }
 
-const THEME_INIT_SCRIPT = `(function(){try{var stored=window.localStorage.getItem('theme');var mode=(stored==='light'||stored==='dark'||stored==='auto')?stored:'auto';var prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;var resolved=mode==='auto'?(prefersDark?'dark':'light'):mode;var root=document.documentElement;root.classList.remove('light','dark');root.classList.add(resolved);if(mode==='auto'){root.removeAttribute('data-theme')}else{root.setAttribute('data-theme',mode)}root.style.colorScheme=resolved;}catch(e){}})();`
+const THEME_INIT_SCRIPT = `(function(){try{var stored=window.localStorage.getItem('theme');var mode=(stored==='light'||stored==='dark'||stored==='auto')?stored:'auto';var prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;var resolved=mode==='auto'?(prefersDark?'dark':'light'):mode;var root=document.documentElement;root.classList.remove('light','dark');root.classList.add(resolved);if(mode==='auto'){root.removeAttribute('data-theme')}else{root.setAttribute('data-theme',mode)}root.style.colorScheme=resolved;}catch(e){}})();`;
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
-  head: () => ({
-    meta: [
-      {
-        charSet: 'utf-8',
-      },
-      {
-        name: 'viewport',
-        content: 'width=device-width, initial-scale=1',
-      },
-      {
-        title: 'TanStack Start Starter',
-      },
-    ],
-    links: [
-      {
-        rel: 'stylesheet',
-        href: appCss,
-      },
-    ],
-  }),
-  shellComponent: RootDocument,
-})
+    head: () => ({
+        meta: [
+            {
+                charSet: 'utf-8'
+            },
+            {
+                name: 'viewport',
+                content: 'width=device-width, initial-scale=1'
+            },
+            {
+                title: 'TanStack Start Starter'
+            }
+        ],
+        links: [
+            {
+                rel: 'stylesheet',
+                href: appCss
+            }
+        ]
+    }),
+    shellComponent: RootDocument
+});
 
 function RootDocument({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="en" suppressHydrationWarning className="h-full">
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
-        <HeadContent />
-      </head>
-      <body className="font-sans antialiased wrap-anywhere min-h-screen flex flex-col">
-        <TanStackQueryProvider>
-          <NeonAuthUIProvider authClient={authClient}>
-            <Header />
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </NeonAuthUIProvider>
-          {/* <TanStackDevtools */}
-          {/*   config={{ */}
-          {/*     position: 'bottom-right', */}
-          {/*   }} */}
-          {/*   plugins={[ */}
-          {/*     { */}
-          {/*       name: 'Tanstack Router', */}
-          {/*       render: <TanStackRouterDevtoolsPanel />, */}
-          {/*     }, */}
-          {/*     TanStackQueryDevtools, */}
-          {/*   ]} */}
-          {/* /> */}
-        </TanStackQueryProvider>
-        <Scripts />
-      </body>
-    </html>
-  )
+    return (
+        <html lang="en" suppressHydrationWarning className="h-full">
+            <head>
+                <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+                <HeadContent />
+            </head>
+            <body className="font-sans antialiased wrap-anywhere min-h-screen">
+                <TanStackQueryProvider>
+                    <NeonAuthUIProvider authClient={authClient}>
+                        <div className="flex flex-col min-h-screen w-full">
+                            <Header />
+                            <main className="flex-1">{children}</main>
+                            <Footer />
+                        </div>
+                    </NeonAuthUIProvider>
+                </TanStackQueryProvider>
+                <Scripts />
+            </body>
+        </html>
+    );
 }
