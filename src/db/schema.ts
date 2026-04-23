@@ -1,4 +1,4 @@
-import { sql, type SQL } from 'drizzle-orm';
+import { sql, type InferSelectModel, type SQL } from 'drizzle-orm';
 import {
     boolean,
     integer,
@@ -113,3 +113,5 @@ export const orderItems = pgTable('order_items', {
     quantity: integer('quantity').notNull(),
     imageUrl: text('image_url')
 });
+
+export type Product = InferSelectModel<typeof products>;
