@@ -1,3 +1,4 @@
+import { sql, type SQL } from 'drizzle-orm';
 import {
     boolean,
     integer,
@@ -7,25 +8,31 @@ import {
     text,
     timestamp,
     uuid,
-    varchar
+    varchar,
+    customType,
+    index
 } from 'drizzle-orm/pg-core';
 
-export const productTypeEnum = pgEnum('product_type', ['vinyl', 'gear']);
-export const conditionEnum = pgEnum('condition', [
-    'new',
-    'used_mint',
-    'used_good',
-    'used_fair',
-    'used_bad'
-]);
-export const orderStatusEnum = pgEnum('order_status', [
+const tsvector = customType<{ data: string }>({
+    dataType() {
+        return 'tsvector';
+    }
+});
+
+export const productTypes = ['vinyl', 'gear'] as const;
+export const conditions = ['new', 'used_mint', 'used_good', 'used_fair', 'used_bad'] as const;
+export const orderStatuses = [
     'pending',
     'paid',
     'processing',
     'shipped',
     'delivered',
     'cancelled'
-]);
+] as const;
+
+export const productTypeEnum = pgEnum('product_type', productTypes);
+export const conditionEnum = pgEnum('condition', conditions);
+export const orderStatusEnum = pgEnum('order_status', orderStatuses);
 
 export const categories = pgTable('categories', {
     id: integer('id').primaryKey().generatedAlwaysAsIdentity(),
@@ -34,20 +41,39 @@ export const categories = pgTable('categories', {
     type: productTypeEnum('type')
 });
 
-export const products = pgTable('products', {
-    id: uuid('id').primaryKey().defaultRandom(),
-    name: varchar('name', { length: 255 }).notNull(),
-    slug: varchar('slug', { length: 255 }).unique().notNull(),
-    price: integer('price').notNull(),
-    stock: integer('stock').notNull(),
-    condition: conditionEnum('condition'),
-    categoryId: integer('category_id').references(() => categories.id),
-    imageUrl: text('image_url'),
-    spotifyAlbumId: varchar('spotify_album_id', { length: 255 }),
-    releaseYear: integer('release_year'),
-    active: boolean('active').default(true),
-    createdAt: timestamp('created_at').defaultNow()
-});
+export const products = pgTable(
+    'products',
+    {
+        id: uuid('id').primaryKey().defaultRandom(),
+        name: varchar('name', { length: 255 }).notNull(),
+        slug: varchar('slug', { length: 255 }).unique().notNull(),
+        type: productTypeEnum('type'),
+        price: integer('price').notNull(),
+        stock: integer('stock').notNull(),
+        condition: conditionEnum('condition'),
+        categoryId: integer('category_id').references(() => categories.id),
+        imageUrl: text('image_url'),
+
+        // Gear Specific
+        manufacturer: varchar('manufacturer', { length: 255 }),
+
+        // Vinyl specific
+        artistName: varchar('artist_name', { length: 255 }),
+        spotifyAlbumId: varchar('spotify_album_id', { length: 255 }),
+        releaseYear: integer('release_year'),
+
+        active: boolean('active').default(true),
+        createdAt: timestamp('created_at').defaultNow(),
+
+        productSearch: tsvector('product_search')
+            .notNull()
+            .generatedAlwaysAs(
+                (): SQL =>
+                    sql`to_tsvector('english', coalesce(${products.name}, '') || ' ' || coalesce(${products.artistName}, '') || ' ' || coalesce(${products.manufacturer}, '') || ' ')`
+            )
+    },
+    (t) => [index('idx_product_search').using('gin', t.productSearch)]
+);
 
 export const carts = pgTable('carts', {
     id: uuid('id').primaryKey().defaultRandom(),
@@ -68,7 +94,7 @@ export const cartItems = pgTable('cart_items', {
 
 export const orders = pgTable('orders', {
     id: uuid('id').primaryKey().defaultRandom(),
-    userId: text('user_id').unique().notNull(),
+    userId: text('user_id').notNull(),
     status: orderStatusEnum('order_status'),
     totalAmount: integer('total_amount').notNull(),
     stripePaymentIntentId: varchar('stripe_payment_id', { length: 255 }),

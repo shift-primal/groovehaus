@@ -1,0 +1,2 @@
+ALTER TABLE "products" drop column "product_search";--> statement-breakpoint
+ALTER TABLE "products" ADD COLUMN "product_search" "tsvector" GENERATED ALWAYS AS (to_tsvector('english', coalesce("products"."name", '') || ' ' || coalesce("products"."artist_name", '') || ' ' || coalesce("products"."manufacturer", '') || ' ' || coalesce("products"."slug", ''))) STORED NOT NULL;
