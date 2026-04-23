@@ -100,7 +100,7 @@ export const orders = pgTable('orders', {
     stripePaymentIntentId: varchar('stripe_payment_id', { length: 255 }),
     shippingName: varchar('shipping_name', { length: 255 }),
     shippingEmail: varchar('shipping_email', { length: 255 }),
-    shippingAdress: jsonb('shipping_adress'),
+    shippingAddress: jsonb('shipping_address'),
     createdAt: timestamp('created_at').defaultNow()
 });
 
