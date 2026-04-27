@@ -1,7 +1,8 @@
 import { authClient } from '#/lib/auth';
 import { RedirectToSignIn, SignedIn, UserButton } from '@neondatabase/auth/react';
+import { createFileRoute } from '@tanstack/react-router';
 
-export const CartPage = () => {
+const CartPage = () => {
     const { data } = authClient.useSession();
 
     return (
@@ -40,3 +41,7 @@ export const CartPage = () => {
         </>
     );
 };
+
+export const Route = createFileRoute('/cart/')({
+    component: CartPage
+});

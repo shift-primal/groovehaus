@@ -9,10 +9,16 @@ export async function getSpotifyToken(): Promise<string> {
     return res.data.access_token;
 }
 
-export async function getAlbumCover(albumId: string, token: string): Promise<string> {
+export async function getAlbumData(albumId: string, token: string) {
     const res = await axios.get(`https://api.spotify.com/v1/albums/${albumId}`, {
         headers: { Authorization: `Bearer ${token}` }
     });
-    if (res.status !== 200) throw new Error(`Spotify error ${res.status}: ${res.data}`);
-    return res.data.images[0].url;
+
+    return {
+        name: res.data.name as string,
+        artist: res.data.artists[0].name as string,
+        releaseYear: Number(res.data.release_date.split('-')[0]),
+        imageUrl: res.data.images[0].url as string,
+        spotifyAlbumId: albumId
+    };
 }

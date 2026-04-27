@@ -1,29 +1,25 @@
 import { faker } from '@faker-js/faker';
 import { db } from '.';
 import { categories, conditions, products } from './schema';
-import { fetchInBatches, slugify, truncateDb } from '#/lib/dbUtils';
-import { getAlbumCover, getSpotifyToken } from '#/lib/spotify';
-import {
-    gearImages,
-    guitars,
-    midiControllers,
-    prices,
-    records,
-    turntables,
-    type Gear,
-    type VinylRecord
-} from './seedData';
+import { truncateDb } from '#/lib/dbUtils';
+import { fetchInBatches, slugify } from '#/lib/utils';
+import { getAlbumData, getSpotifyToken } from '#/lib/spotify';
+import { guitars, midiControllers, turntables, type Gear } from './seedData.gear';
+import { albumIds } from '#/db/seedData.albums';
+import { prices } from '#/db/seedData.general';
 
-async function seedRecords(records: VinylRecord[], categoryId: number, spotifyToken: string) {
-    const values = await fetchInBatches(records, 3, async (r) => {
+async function seedRecords(albumIds: string[], categoryId: number, spotifyToken: string) {
+    const values = await fetchInBatches(albumIds, 3, async (r) => {
+        const album = await getAlbumData(r, spotifyToken);
         const condition = faker.helpers.arrayElement(conditions);
+
         return {
-            name: r.name,
-            slug: slugify(r.name),
-            artistName: r.artist,
-            spotifyAlbumId: r.spotifyAlbumId,
-            imageUrl: await getAlbumCover(r.spotifyAlbumId, spotifyToken),
-            releaseYear: r.releaseYear,
+            name: album.name,
+            slug: slugify(album.name),
+            artistName: album.artist,
+            spotifyAlbumId: album.spotifyAlbumId,
+            imageUrl: album.imageUrl,
+            releaseYear: album.releaseYear,
             type: 'vinyl' as const,
             categoryId,
             price: faker.helpers.arrayElement(prices.vinyl[condition]),
@@ -42,7 +38,7 @@ async function seedGear(items: Gear[], categoryId: number) {
         return {
             name: i.name,
             slug: slugify(`${i.manufacturer} ${i.name}`),
-            imageUrl: gearImages[i.name],
+            imageUrl: i.imageUrl,
             manufacturer: i.manufacturer,
             type: 'gear' as const,
             categoryId,
@@ -57,8 +53,7 @@ async function seedGear(items: Gear[], categoryId: number) {
 }
 
 async function seed() {
-    // Reset DB for re-seed (dev)
-    truncateDb(db);
+    await truncateDb(db);
 
     const spotifyToken = await getSpotifyToken();
 
@@ -77,7 +72,7 @@ async function seed() {
     const turntableCat = insertedCategories.find((c) => c.slug === 'turntables')!;
     const midiCat = insertedCategories.find((c) => c.slug === 'midi-controllers')!;
 
-    await seedRecords(records, vinylCat.id, spotifyToken);
+    await seedRecords(Object.values(albumIds), vinylCat.id, spotifyToken);
 
     await seedGear(guitars, guitarCat.id);
     await seedGear(turntables, turntableCat.id);

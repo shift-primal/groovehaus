@@ -47,7 +47,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
                 <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
                 <HeadContent />
             </head>
-            <body className="font-sans antialiased wrap-anywhere min-h-screen">
+            <body className="font-sans antialiased wrap-anywhere overflow-x-hidden">
                 <TanStackQueryProvider>
                     <NeonAuthUIProvider authClient={authClient}>
                         <div className="flex flex-col min-h-screen w-full">

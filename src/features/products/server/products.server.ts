@@ -3,6 +3,11 @@ import { and, eq, sql } from 'drizzle-orm';
 import { db } from '#/db';
 import type { GetProductsInput } from './products.schemas';
 
+export async function getProductBySlug(slug: string) {
+    const [product] = await db.select().from(products).where(eq(products.slug, slug));
+    return product ?? null;
+}
+
 export async function searchProducts(input: GetProductsInput) {
     const { search, type, categoryId, page, limit } = input;
     const where = [eq(products.active, true)];

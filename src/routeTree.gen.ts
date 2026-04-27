@@ -11,6 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProductsIndexRouteImport } from './routes/products/index'
+import { Route as CartIndexRouteImport } from './routes/cart/index'
+import { Route as ProductsSlugRouteImport } from './routes/products/$slug'
 import { Route as AuthPathnameRouteImport } from './routes/auth.$pathname'
 import { Route as AccountPathnameRouteImport } from './routes/account.$pathname'
 
@@ -22,6 +24,16 @@ const IndexRoute = IndexRouteImport.update({
 const ProductsIndexRoute = ProductsIndexRouteImport.update({
   id: '/products/',
   path: '/products/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CartIndexRoute = CartIndexRouteImport.update({
+  id: '/cart/',
+  path: '/cart/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductsSlugRoute = ProductsSlugRouteImport.update({
+  id: '/products/$slug',
+  path: '/products/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthPathnameRoute = AuthPathnameRouteImport.update({
@@ -39,12 +51,16 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/account/$pathname': typeof AccountPathnameRoute
   '/auth/$pathname': typeof AuthPathnameRoute
+  '/products/$slug': typeof ProductsSlugRoute
+  '/cart/': typeof CartIndexRoute
   '/products/': typeof ProductsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/account/$pathname': typeof AccountPathnameRoute
   '/auth/$pathname': typeof AuthPathnameRoute
+  '/products/$slug': typeof ProductsSlugRoute
+  '/cart': typeof CartIndexRoute
   '/products': typeof ProductsIndexRoute
 }
 export interface FileRoutesById {
@@ -52,20 +68,43 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/account/$pathname': typeof AccountPathnameRoute
   '/auth/$pathname': typeof AuthPathnameRoute
+  '/products/$slug': typeof ProductsSlugRoute
+  '/cart/': typeof CartIndexRoute
   '/products/': typeof ProductsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/account/$pathname' | '/auth/$pathname' | '/products/'
+  fullPaths:
+    | '/'
+    | '/account/$pathname'
+    | '/auth/$pathname'
+    | '/products/$slug'
+    | '/cart/'
+    | '/products/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/account/$pathname' | '/auth/$pathname' | '/products'
-  id: '__root__' | '/' | '/account/$pathname' | '/auth/$pathname' | '/products/'
+  to:
+    | '/'
+    | '/account/$pathname'
+    | '/auth/$pathname'
+    | '/products/$slug'
+    | '/cart'
+    | '/products'
+  id:
+    | '__root__'
+    | '/'
+    | '/account/$pathname'
+    | '/auth/$pathname'
+    | '/products/$slug'
+    | '/cart/'
+    | '/products/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AccountPathnameRoute: typeof AccountPathnameRoute
   AuthPathnameRoute: typeof AuthPathnameRoute
+  ProductsSlugRoute: typeof ProductsSlugRoute
+  CartIndexRoute: typeof CartIndexRoute
   ProductsIndexRoute: typeof ProductsIndexRoute
 }
 
@@ -83,6 +122,20 @@ declare module '@tanstack/react-router' {
       path: '/products'
       fullPath: '/products/'
       preLoaderRoute: typeof ProductsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cart/': {
+      id: '/cart/'
+      path: '/cart'
+      fullPath: '/cart/'
+      preLoaderRoute: typeof CartIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/products/$slug': {
+      id: '/products/$slug'
+      path: '/products/$slug'
+      fullPath: '/products/$slug'
+      preLoaderRoute: typeof ProductsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth/$pathname': {
@@ -106,6 +159,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccountPathnameRoute: AccountPathnameRoute,
   AuthPathnameRoute: AuthPathnameRoute,
+  ProductsSlugRoute: ProductsSlugRoute,
+  CartIndexRoute: CartIndexRoute,
   ProductsIndexRoute: ProductsIndexRoute,
 }
 export const routeTree = rootRouteImport
