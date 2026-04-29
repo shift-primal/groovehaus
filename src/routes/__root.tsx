@@ -6,9 +6,14 @@ import { NeonAuthUIProvider } from '@neondatabase/auth/react';
 
 import appCss from '#/styles/globals.css?url';
 
-import { Header } from '#/components/layout/Header';
 import { Footer } from '#/components/layout/Footer';
+import { footerProps } from '#/config/footer';
+
+import { NavBar } from '#/components/layout/NavBar';
+import { navBarProps } from '#/config/navbar';
+
 import { authClient } from '#/lib/auth';
+import { Container } from '#/components/layout/Container';
 
 interface MyRouterContext {
     queryClient: QueryClient;
@@ -17,6 +22,7 @@ interface MyRouterContext {
 const THEME_INIT_SCRIPT = `(function(){try{var stored=window.localStorage.getItem('theme');var mode=(stored==='light'||stored==='dark'||stored==='auto')?stored:'auto';var prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;var resolved=mode==='auto'?(prefersDark?'dark':'light'):mode;var root=document.documentElement;root.classList.remove('light','dark');root.classList.add(resolved);if(mode==='auto'){root.removeAttribute('data-theme')}else{root.setAttribute('data-theme',mode)}root.style.colorScheme=resolved;}catch(e){}})();`;
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
+    notFoundComponent: () => <div>404 - Ikke funnet</div>,
     head: () => ({
         meta: [
             {
@@ -51,9 +57,11 @@ function RootDocument({ children }: { children: React.ReactNode }) {
                 <TanStackQueryProvider>
                     <NeonAuthUIProvider authClient={authClient}>
                         <div className="flex flex-col min-h-screen w-full">
-                            <Header />
-                            <main className="flex-1">{children}</main>
-                            <Footer />
+                            <NavBar props={navBarProps} />
+                            <main className="flex-1">
+                                <Container>{children}</Container>
+                            </main>
+                            <Footer props={footerProps} />
                         </div>
                     </NeonAuthUIProvider>
                 </TanStackQueryProvider>

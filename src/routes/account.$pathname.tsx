@@ -12,8 +12,7 @@ function Account() {
             style={{
                 display: 'flex',
                 justifyContent: 'center',
-                alignItems: 'center',
-                minHeight: '100vh'
+                alignItems: 'center'
             }}
         >
             <AccountView pathname={pathname} />
