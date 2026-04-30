@@ -22,7 +22,7 @@ export const NavBar = ({ props }: { props: NavbarProps }) => {
     const { icon: LogoIcon, text: LogoText } = logo;
 
     return (
-        <div className="sticky top-0 z-50 px-8 py-4 backdrop-blur-lg">
+        <div className="sticky top-0 z-50 px-8 py-4 backdrop-blur-lg border-b bg-background-lighter">
             {/* Desktop Menu */}
             <nav className="hidden items-center justify-between lg:flex">
                 <div className="flex items-center gap-6">

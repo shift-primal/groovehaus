@@ -1,3 +1,4 @@
+import { ORDER_STATUSES, PRODUCT_CONDITIONS, PRODUCT_TYPES } from '#/config/products';
 import { sql, type InferSelectModel, type SQL } from 'drizzle-orm';
 import {
     boolean,
@@ -19,20 +20,9 @@ const tsvector = customType<{ data: string }>({
     }
 });
 
-export const productTypes = ['vinyl', 'gear'] as const;
-export const conditions = ['new', 'used_mint', 'used_good', 'used_fair', 'used_bad'] as const;
-export const orderStatuses = [
-    'pending',
-    'paid',
-    'processing',
-    'shipped',
-    'delivered',
-    'cancelled'
-] as const;
-
-export const productTypeEnum = pgEnum('product_type', productTypes);
-export const conditionEnum = pgEnum('condition', conditions);
-export const orderStatusEnum = pgEnum('order_status', orderStatuses);
+export const productTypeEnum = pgEnum('product_type', PRODUCT_TYPES);
+export const conditionEnum = pgEnum('condition', PRODUCT_CONDITIONS);
+export const orderStatusEnum = pgEnum('order_status', ORDER_STATUSES);
 
 export const categories = pgTable('categories', {
     id: integer('id').primaryKey().generatedAlwaysAsIdentity(),
