@@ -7,18 +7,17 @@ import { SpotifyAlbum } from '#/features/products/components/SpotifyAlbum';
 import { VinylImage } from '#/features/products/components/VinylImage';
 import { CircleCheck } from 'lucide-react';
 
-export const ProductDetails = ({ product }: { product: Product }) => {
-    const rate = 3.5;
-    const totalReviewers = '5.8k';
+export const ProductDetails = ({ productData }: { productData: Product }) => {
+    const { artistName, spotifyAlbumId, imageUrl, manufacturer, name, price, rating } = productData;
 
     return (
         <div className="container">
             <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12">
                 <div id="product-image" className="flex justify-center items-center h-full">
-                    {product.artistName ? (
-                        <VinylImage coverUrl={product.imageUrl!} />
+                    {artistName ? (
+                        <VinylImage coverUrl={imageUrl!} />
                     ) : (
-                        <img src={product.imageUrl!} alt={product.name} />
+                        <img src={imageUrl!} alt={name} />
                     )}
                 </div>
                 <div className="space-y-6">
@@ -26,13 +25,16 @@ export const ProductDetails = ({ product }: { product: Product }) => {
                         <div className="flex flex-wrap items-start justify-between gap-4">
                             <div className="flex-1">
                                 <h2 className="text-muted-foreground text-lg mb-1">
-                                    {product.artistName ?? product.manufacturer}
+                                    {artistName ?? manufacturer}
                                 </h2>
                                 <h1 className="text-4xl font-bold tracking-tight lg:text-5xl">
-                                    {product.name}
+                                    {name}
                                 </h1>
                                 <div className="mt-3 flex flex-wrap items-center gap-4">
-                                    <Reviews rate={rate} totalReviewers={totalReviewers} />
+                                    <Reviews
+                                        rating={rating!.rating}
+                                        reviewers={rating!.reviewers}
+                                    />
                                     <Badge variant="secondary">
                                         <CircleCheck />
                                         In Stock
@@ -40,9 +42,9 @@ export const ProductDetails = ({ product }: { product: Product }) => {
                                 </div>
                             </div>
                         </div>
-                        <Price regular={product.price} />
+                        <Price regular={price} />
                     </div>
-                    <SpotifyAlbum albumId={product.spotifyAlbumId ?? undefined} />
+                    <SpotifyAlbum albumId={spotifyAlbumId ?? undefined} />
                     <Button size="lg" className="w-full">
                         Buy now!
                     </Button>

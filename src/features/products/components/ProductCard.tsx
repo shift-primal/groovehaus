@@ -10,14 +10,7 @@ import {
     CardTitle
 } from '#/components/shadcn/card';
 import { fmtPrice } from '#/lib/utils';
-
-const conditionTranslations = {
-    new: 'Ny!',
-    used_mint: 'Nesten ny',
-    used_good: 'Pent brukt',
-    used_fair: 'Brukt',
-    used_bad: 'Tydelig brukt'
-};
+import { conditionLabels } from '#/config/products';
 
 export const ProductCard = ({ productData }: { productData: Product }) => {
     const { slug, imageUrl, name, condition, artistName, manufacturer, price } = productData;
@@ -38,7 +31,7 @@ export const ProductCard = ({ productData }: { productData: Product }) => {
                         />
                     </AspectRatio>
                     <Badge className="absolute left-2 top-2 text-[0.65rem] bg-black/60 backdrop-blur-sm text-white border-0">
-                        {conditionTranslations[condition!]}
+                        {conditionLabels[condition!]}
                     </Badge>
                 </CardHeader>
                 <CardContent className="flex h-full flex-col  px-3 pb-2.5 pt-3">

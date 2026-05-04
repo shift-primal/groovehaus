@@ -1,17 +1,18 @@
 import { faker } from '@faker-js/faker';
 import { db } from '.';
-import { categories, conditions, products } from './schema';
-import { truncateDb } from '#/lib/dbUtils';
+import { categories, products } from './schema';
+import { getFakeRating, truncateDb } from '#/lib/dbUtils';
 import { fetchInBatches, slugify } from '#/lib/utils';
 import { getAlbumData, getSpotifyToken } from '#/lib/spotify';
 import { guitars, midiControllers, turntables, type Gear } from './seedData.gear';
 import { albumIds } from '#/db/seedData.albums';
 import { prices } from '#/db/seedData.general';
+import { PRODUCT_CONDITIONS } from '#/config/products';
 
 async function seedRecords(albumIds: string[], categoryId: number, spotifyToken: string) {
     const values = await fetchInBatches(albumIds, 3, async (r) => {
         const album = await getAlbumData(r, spotifyToken);
-        const condition = faker.helpers.arrayElement(conditions);
+        const condition = faker.helpers.arrayElement(PRODUCT_CONDITIONS);
 
         return {
             name: album.name,
@@ -23,9 +24,15 @@ async function seedRecords(albumIds: string[], categoryId: number, spotifyToken:
             type: 'vinyl' as const,
             categoryId,
             price: faker.helpers.arrayElement(prices.vinyl[condition]),
-            stock: faker.number.int({ min: 1, max: 20 }),
+            stock: faker.number.int({ min: 0, max: 20 }),
             condition,
-            active: true
+            active: true,
+            rating: getFakeRating({
+                minRating: 2.5,
+                maxRating: 5,
+                minReviewers: 500,
+                maxReviewers: 9999
+            })
         };
     });
 
@@ -34,7 +41,7 @@ async function seedRecords(albumIds: string[], categoryId: number, spotifyToken:
 
 async function seedGear(items: Gear[], categoryId: number) {
     const values = items.map((i) => {
-        const condition = faker.helpers.arrayElement(conditions);
+        const condition = faker.helpers.arrayElement(PRODUCT_CONDITIONS);
         return {
             name: i.name,
             slug: slugify(`${i.manufacturer} ${i.name}`),
@@ -43,9 +50,15 @@ async function seedGear(items: Gear[], categoryId: number) {
             type: 'gear' as const,
             categoryId,
             price: faker.helpers.arrayElement(prices.gear[condition]),
-            stock: faker.number.int({ min: 1, max: 10 }),
+            stock: faker.number.int({ min: 0, max: 10 }),
             condition,
-            active: true
+            active: true,
+            rating: getFakeRating({
+                minRating: 2.5,
+                maxRating: 5,
+                minReviewers: 500,
+                maxReviewers: 9999
+            })
         };
     });
 

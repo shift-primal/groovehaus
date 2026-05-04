@@ -24,6 +24,11 @@ export const productTypeEnum = pgEnum('product_type', PRODUCT_TYPES);
 export const conditionEnum = pgEnum('condition', PRODUCT_CONDITIONS);
 export const orderStatusEnum = pgEnum('order_status', ORDER_STATUSES);
 
+export type Rating = {
+    rating: number;
+    reviewers: number;
+};
+
 export const categories = pgTable('categories', {
     id: integer('id').primaryKey().generatedAlwaysAsIdentity(),
     name: varchar('name', { length: 100 }).notNull(),
@@ -43,6 +48,7 @@ export const products = pgTable(
         condition: conditionEnum('condition'),
         categoryId: integer('category_id').references(() => categories.id),
         imageUrl: text('image_url'),
+        rating: jsonb('rating').$type<Rating>(),
 
         // Gear Specific
         manufacturer: varchar('manufacturer', { length: 255 }),

@@ -8,6 +8,7 @@ import {
 } from '#/components/shadcn/sheet';
 import { CategoryFilter } from '#/features/products/components/querycontrols/CategoryFilter';
 import { ConditionFilter } from '#/features/products/components/querycontrols/ConditionFilter';
+import { SearchFilter } from '#/features/products/components/querycontrols/SearchFilter';
 import { useCategories } from '#/features/products/hooks/useCategories';
 import { SlidersHorizontal } from 'lucide-react';
 
@@ -27,6 +28,7 @@ export const QueryControls = () => {
                     <SheetTitle>Filtre</SheetTitle>
                 </SheetHeader>
                 <div className="flex-1 overflow-y-auto p-6">
+                    <SearchFilter />
                     <CategoryFilter categories={categories} />
                     <ConditionFilter />
                 </div>

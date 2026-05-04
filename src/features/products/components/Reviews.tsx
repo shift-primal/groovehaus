@@ -1,16 +1,12 @@
+import type { Rating } from '#/db/schema';
 import { Star, StarHalf } from 'lucide-react';
-
-interface ReviewsProps {
-    rate: number;
-    totalReviewers: string;
-}
 
 const MAX_STARS = 5;
 
-export const Reviews = ({ rate, totalReviewers }: ReviewsProps) => {
+export const Reviews = ({ rating, reviewers }: Rating) => {
     const renderStars = () => {
-        const fullStars = Math.floor(rate);
-        const hasHalfStar = rate % 1 >= 0.5;
+        const fullStars = Math.floor(rating);
+        const hasHalfStar = rating % 1 >= 0.5;
         const emptyStars = MAX_STARS - fullStars - (hasHalfStar ? 1 : 0);
 
         const stars = [];
@@ -45,12 +41,15 @@ export const Reviews = ({ rate, totalReviewers }: ReviewsProps) => {
         return stars;
     };
 
+    const reviewersFmtd =
+        reviewers >= 1000 ? `${(reviewers / 1000).toFixed(1)}k` : String(reviewers);
+
     return (
         <div className="flex items-center gap-2">
             <div className="flex items-center gap-1">{renderStars()}</div>
-            {totalReviewers && (
+            {reviewers && (
                 <p className="text-base leading-none font-medium whitespace-nowrap text-muted-foreground">
-                    {totalReviewers} reviews
+                    {reviewersFmtd} reviews
                 </p>
             )}
         </div>

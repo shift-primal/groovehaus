@@ -10,6 +10,7 @@ export const productsSearchSchema = z.object({
     type: z.enum(PRODUCT_TYPES).optional(),
     categoryId: z.number().optional(),
     condition: z.enum(PRODUCT_CONDITIONS).array().optional(),
+    stock: z.number().optional(),
     page: z.number().default(1)
 });
 

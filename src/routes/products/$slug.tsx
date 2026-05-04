@@ -9,7 +9,7 @@ const ProductDetailsPage = () => {
     if (isLoading) return null;
     if (!product) return <div>Ikke funnet</div>;
 
-    return <ProductDetails product={product} />;
+    return <ProductDetails productData={product} />;
 };
 
 export const Route = createFileRoute('/products/$slug')({

@@ -18,9 +18,9 @@ export const PRODUCT_CONDITIONS = [
 ] as const;
 export const conditionLabels: Record<Condition, string> = {
     new: 'Ny',
-    used_mint: 'Brukt – Mint',
-    used_good: 'Brukt – God',
-    used_fair: 'Brukt – OK',
-    used_bad: 'Brukt – Dårlig'
+    used_mint: 'Nesten ny',
+    used_good: 'Pent brukt',
+    used_fair: 'Brukt',
+    used_bad: 'Tydelig brukt'
 };
 export type Condition = (typeof PRODUCT_CONDITIONS)[number];

@@ -13,8 +13,6 @@ export const CategoryFilter = ({ categories = [] }: { categories?: Category[] })
     const navigate = useProductsNavigate();
     const { categoryId } = useSearch({ from: '/products/' });
 
-    console.log(categoryId);
-
     const title =
         categoryId === undefined
             ? 'Kategori'
