@@ -32,5 +32,6 @@ export const footerProps = {
     legalLinks: [
         { name: 'Vilkår og betingelser', href: '#' },
         { name: 'Personvernerklæring', href: '#' }
-    ]
+    ],
+    maxSections: 4
 };

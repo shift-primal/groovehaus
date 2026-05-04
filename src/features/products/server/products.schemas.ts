@@ -1,4 +1,4 @@
-import { PRODUCT_TYPES } from '#/config/products';
+import { PRODUCT_CONDITIONS, PRODUCT_TYPES } from '#/config/products';
 import { z } from 'zod';
 
 export const getProductSchema = z.object({
@@ -9,6 +9,7 @@ export const productsSearchSchema = z.object({
     search: z.string().optional(),
     type: z.enum(PRODUCT_TYPES).optional(),
     categoryId: z.number().optional(),
+    condition: z.enum(PRODUCT_CONDITIONS).array().optional(),
     page: z.number().default(1)
 });
 

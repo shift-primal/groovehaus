@@ -1,5 +1,5 @@
 import { categories, products } from '#/db/schema';
-import { and, eq, sql } from 'drizzle-orm';
+import { and, eq, inArray, sql } from 'drizzle-orm';
 import { db } from '#/db';
 import type { GetProductsInput } from './products.schemas';
 
@@ -13,7 +13,7 @@ export async function fetchProductBySlug(slug: string) {
 }
 
 export async function fetchProductsSearch(input: GetProductsInput) {
-    const { search, type, categoryId, page, limit } = input;
+    const { search, type, categoryId, condition, page, limit } = input;
     const where = [eq(products.active, true)];
 
     if (search) {
@@ -26,6 +26,10 @@ export async function fetchProductsSearch(input: GetProductsInput) {
 
     if (categoryId) {
         where.push(eq(products.categoryId, categoryId));
+    }
+
+    if (condition && condition.length > 0) {
+        where.push(inArray(products.condition, condition));
     }
 
     const [result, [{ count }]] = await Promise.all([

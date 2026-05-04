@@ -21,4 +21,5 @@ export interface FooterProps {
     sections?: FooterSection[];
     copyright?: string;
     legalLinks?: FooterLink[];
+    maxSections?: number;
 }

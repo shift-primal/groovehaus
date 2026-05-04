@@ -5,5 +5,6 @@ import type { ProductsSearch } from '#/features/products/server/products.schemas
 export const useProducts = (search: ProductsSearch) =>
     useQuery({
         queryKey: ['products', search],
-        queryFn: () => getProducts({ data: { ...search, page: search.page ?? 1 } })
+        queryFn: () => getProducts({ data: { ...search, page: search.page ?? 1 } }),
+        placeholderData: (prev) => prev
     });

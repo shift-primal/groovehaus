@@ -2,12 +2,11 @@ import type { FooterProps } from '#/types/FooterTypes';
 import { Link } from '@tanstack/react-router';
 
 export const Footer = ({ props }: { props: FooterProps }) => {
-    const { logo, description, sections, copyright, legalLinks } = props;
+    const { logo, description, sections, copyright, legalLinks, maxSections } = props;
 
     if (!logo) return;
 
-    const MAX_SECTIONS = 4;
-    const visibleSections = (sections ?? []).slice(0, MAX_SECTIONS);
+    const visibleSections = (sections ?? []).slice(0, maxSections ?? 4);
 
     const { text: LogoText } = logo;
 
