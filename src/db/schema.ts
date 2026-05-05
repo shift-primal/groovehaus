@@ -45,6 +45,8 @@ export const products = pgTable(
         categoryId: integer('category_id').references(() => categories.id),
         imageUrl: text('image_url'),
         rating: jsonb('rating').$type<Rating>(),
+        active: boolean('active').default(true),
+        createdAt: timestamp('created_at').defaultNow(),
 
         // Gear Specific
         manufacturer: varchar('manufacturer', { length: 255 }),
@@ -54,14 +56,16 @@ export const products = pgTable(
         spotifyAlbumId: varchar('spotify_album_id', { length: 255 }),
         releaseYear: integer('release_year'),
 
-        active: boolean('active').default(true),
-        createdAt: timestamp('created_at').defaultNow(),
-
         productSearch: tsvector('product_search')
             .notNull()
             .generatedAlwaysAs(
-                (): SQL =>
-                    sql`to_tsvector('english', coalesce(${products.name}, '') || ' ' || coalesce(${products.artistName}, '') || ' ' || coalesce(${products.manufacturer}, '') || ' ')`
+                (): SQL => sql`
+			to_tsvector('simple', f_unaccent(regexp_replace(
+				coalesce(${products.name}, '') || ' ' ||
+				coalesce(${products.artistName}, '') || ' ' ||
+				coalesce(${products.manufacturer}, ''),
+				'\\$', 's', 'g'
+			)))`
             )
     },
     (t) => [index('idx_product_search').using('gin', t.productSearch)]

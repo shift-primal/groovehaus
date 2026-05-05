@@ -57,6 +57,20 @@
       "when": 1776941088618,
       "tag": "0007_lying_millenium_guard",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1777973585185,
+      "tag": "0008_add_unaccent",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1777973649770,
+      "tag": "0009_mute_husk",
+      "breakpoints": true
     }
   ]
 }

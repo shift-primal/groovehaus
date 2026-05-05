@@ -2,6 +2,7 @@ import { categories, products } from '#/db/schema';
 import { and, eq, inArray, sql } from 'drizzle-orm';
 import { db } from '#/db';
 import type { GetProductsInput } from './products.schemas';
+import { normalizeSearch } from '#/lib/utils';
 
 export async function fetchCategories() {
     return await db.select().from(categories);
@@ -17,7 +18,12 @@ export async function fetchProductsSearch(input: GetProductsInput) {
     const where = [eq(products.active, true)];
 
     if (search) {
-        where.push(sql`${products.productSearch} @@ plainto_tsquery('english', ${search})`);
+        const tsQuery = normalizeSearch(search)
+            .trim()
+            .split(/\s+/)
+            .map((w) => `${w}:*`)
+            .join(' & ');
+        where.push(sql`${products.productSearch} @@ to_tsquery('simple', ${tsQuery})`);
     }
 
     if (type) {
