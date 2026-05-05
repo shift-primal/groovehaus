@@ -1,4 +1,4 @@
-import type { Rating } from '#/db/schema';
+import type { Rating } from '#/types/DbTypes';
 import { Star, StarHalf } from 'lucide-react';
 
 const MAX_STARS = 5;

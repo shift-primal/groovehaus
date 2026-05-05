@@ -1,6 +1,7 @@
 import { sql } from 'drizzle-orm';
 import type { NeonHttpDatabase } from 'drizzle-orm/neon-http';
 import type * as schema from '#/db/schema';
+import type { Rating } from '#/types/DbTypes';
 
 type RatingProps = {
     minRating: number;
@@ -14,7 +15,7 @@ export function getFakeRating({
     maxRating,
     minReviewers,
     maxReviewers
-}: RatingProps): schema.Rating {
+}: RatingProps): Rating {
     const rating = Math.round((Math.random() * (maxRating - minRating) + minRating) * 10) / 10;
     const reviewers = Math.floor(Math.random() * (maxReviewers - minReviewers + 1)) + minReviewers;
 

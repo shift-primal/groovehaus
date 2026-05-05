@@ -6,9 +6,11 @@ import {
     SheetTitle,
     SheetTrigger
 } from '#/components/shadcn/sheet';
-import { CategoryFilter } from '#/features/products/components/querycontrols/CategoryFilter';
-import { ConditionFilter } from '#/features/products/components/querycontrols/ConditionFilter';
-import { SearchFilter } from '#/features/products/components/querycontrols/SearchFilter';
+import {
+    CategoryFilter,
+    ConditionFilter,
+    SearchFilter
+} from '#/features/products/components/filters';
 import { useCategories } from '#/features/products/hooks/useCategories';
 import { SlidersHorizontal } from 'lucide-react';
 

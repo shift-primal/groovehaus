@@ -3,3 +3,8 @@ import type { InferSelectModel } from 'drizzle-orm';
 
 export type Product = InferSelectModel<typeof products>;
 export type Category = InferSelectModel<typeof categories>;
+
+export type Rating = {
+    rating: number;
+    reviewers: number;
+};

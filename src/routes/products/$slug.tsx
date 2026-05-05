@@ -1,4 +1,4 @@
-import { ProductDetails } from '#/features/products/components/ProductDetails';
+import { ProductDetails } from '#/features/products/components/details';
 import { useProduct } from '#/features/products/hooks/useProduct';
 import { createFileRoute } from '@tanstack/react-router';
 

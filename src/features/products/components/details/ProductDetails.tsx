@@ -1,10 +1,7 @@
 import { Badge } from '#/components/shadcn/badge';
 import { Button } from '#/components/shadcn/button';
 import type { Product } from '#/db/schema';
-import { Price } from '#/features/products/components/Price';
-import { Reviews } from '#/features/products/components/Reviews';
-import { SpotifyAlbum } from '#/features/products/components/SpotifyAlbum';
-import { VinylImage } from '#/features/products/components/VinylImage';
+import { Reviews, VinylImage, Price, SpotifyAlbum } from '#/features/products/components/details';
 import { CircleCheck } from 'lucide-react';
 
 export const ProductDetails = ({ productData }: { productData: Product }) => {
