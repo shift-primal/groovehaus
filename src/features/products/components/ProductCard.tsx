@@ -27,7 +27,7 @@ export const ProductCard = ({ productData }: { productData: Product }) => {
                         <img
                             src={imageUrl!}
                             alt={name}
-                            className="block size-full object-cover object-center"
+                            className="block size-full object-contain object-center bg-white"
                         />
                     </AspectRatio>
                     <Badge className="absolute left-2 top-2 text-[0.65rem] bg-black/60 backdrop-blur-sm text-white border-0">

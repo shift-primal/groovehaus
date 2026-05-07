@@ -2,6 +2,8 @@ import { Badge } from '#/components/shadcn/badge';
 import { Button } from '#/components/shadcn/button';
 import type { Product } from '#/db/schema';
 import { Reviews, VinylImage, Price, SpotifyAlbum } from '#/features/products/components/details';
+import { BackButton } from '#/features/products/components/details/BackButton';
+import { GearImage } from '#/features/products/components/details/GearImage';
 import { CircleCheck } from 'lucide-react';
 
 export const ProductDetails = ({ productData }: { productData: Product }) => {
@@ -9,12 +11,13 @@ export const ProductDetails = ({ productData }: { productData: Product }) => {
 
     return (
         <div className="container">
+            <BackButton />
             <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12">
                 <div id="product-image" className="flex justify-center items-center h-full">
                     {artistName ? (
                         <VinylImage coverUrl={imageUrl!} />
                     ) : (
-                        <img src={imageUrl!} alt={name} />
+                        <GearImage gearUrl={imageUrl!} />
                     )}
                 </div>
                 <div className="space-y-6">
