@@ -1,5 +1,5 @@
 import { categories, products } from '#/db/schema';
-import { and, eq, inArray, sql } from 'drizzle-orm';
+import { and, between, eq, inArray, sql, gte, lte } from 'drizzle-orm';
 import { db } from '#/db';
 import type { GetProductsInput } from './products.schemas';
 import { normalizeSearch } from '#/lib/utils';
@@ -14,7 +14,7 @@ export async function fetchProductBySlug(slug: string) {
 }
 
 export async function fetchProductsSearch(input: GetProductsInput) {
-    const { search, type, categoryId, condition, page, limit } = input;
+    const { search, type, categoryId, minPrice, maxPrice, condition, page, limit } = input;
     const where = [eq(products.active, true)];
 
     if (search) {
@@ -32,6 +32,14 @@ export async function fetchProductsSearch(input: GetProductsInput) {
 
     if (categoryId) {
         where.push(eq(products.categoryId, categoryId));
+    }
+
+    if (minPrice !== undefined && maxPrice !== undefined) {
+        where.push(between(products.price, minPrice, maxPrice));
+    } else if (minPrice !== undefined) {
+        where.push(gte(products.price, minPrice));
+    } else if (maxPrice !== undefined) {
+        where.push(lte(products.price, maxPrice));
     }
 
     if (condition && condition.length > 0) {

@@ -19,8 +19,10 @@ export const SearchFilter = () => {
     );
 
     return (
-        <div>
+        <div id="search-input" className="flex flex-col gap-2 pb-2">
+            <span className="text-sm font-semibold py-4">Søk</span>
             <Input
+                className="text-sm"
                 placeholder="Fender"
                 value={searchValue}
                 onChange={(e) => {
