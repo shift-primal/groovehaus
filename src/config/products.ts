@@ -1,5 +1,12 @@
 export const PRODUCT_TYPES = ['vinyl', 'gear'] as const;
 
+export const CATEGORIES = [
+    { name: 'Vinyl Records', slug: 'vinyl-records', type: 'vinyl' },
+    { name: 'Gitarer', slug: 'guitars', type: 'gear' },
+    { name: 'Platespillere', slug: 'turntables', type: 'gear' },
+    { name: 'MIDI-kontrollere', slug: 'midi-controllers', type: 'gear' }
+] as const satisfies { name: string; slug: string; type: (typeof PRODUCT_TYPES)[number] }[];
+
 export const ORDER_STATUSES = [
     'pending',
     'paid',

@@ -27,25 +27,25 @@ export const navBarProps = {
                     title: 'Vinyl-plater',
                     description: 'Nye og brukte plater fra ulike sjangre',
                     icon: <Disc3 className="size-5 shrink-0" />,
-                    url: '#'
+                    url: '/products?category=vinyl-records'
                 },
                 {
                     title: 'Gitarer',
                     description: 'Elektriske og akustiske gitarer for alle nivåer',
                     icon: <Guitar className="size-5 shrink-0" />,
-                    url: '#'
+                    url: '/products?category=guitars'
                 },
                 {
                     title: 'Platespillere',
                     description: 'Platespillere for vinyl-entusiaster',
                     icon: <Turntable className="size-5 shrink-0" />,
-                    url: '#'
+                    url: '/products?category=turntables'
                 },
                 {
                     title: 'MIDI-kontrollere',
                     description: 'Kontrollere for musikk-produksjon og live bruk',
                     icon: <KeyboardMusic className="size-5 shrink-0" />,
-                    url: '#'
+                    url: '/products?category=midi-controllers'
                 }
             ]
         },

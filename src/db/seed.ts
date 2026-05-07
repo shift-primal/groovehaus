@@ -7,7 +7,7 @@ import { getAlbumData, getSpotifyToken } from '#/lib/spotify';
 import { guitars, midiControllers, turntables, type Gear } from './seedData.gear';
 import { albumIds } from '#/db/seedData.albums';
 import { prices } from '#/db/seedData.general';
-import { PRODUCT_CONDITIONS } from '#/config/products';
+import { CATEGORIES, PRODUCT_CONDITIONS } from '#/config/products';
 
 async function seedRecords(albumIds: string[], categoryId: number, spotifyToken: string) {
     const values = await fetchInBatches(albumIds, 3, async (r) => {
@@ -72,12 +72,7 @@ async function seed() {
 
     const insertedCategories = await db
         .insert(categories)
-        .values([
-            { name: 'Vinyl Records', slug: 'vinyl-records', type: 'vinyl' },
-            { name: 'Guitars', slug: 'guitars', type: 'gear' },
-            { name: 'Turntables', slug: 'turntables', type: 'gear' },
-            { name: 'MIDI-controllers', slug: 'midi-controllers', type: 'gear' }
-        ])
+        .values(CATEGORIES.map((c) => ({ ...c, type: c.type as 'vinyl' | 'gear' })))
         .returning();
 
     const vinylCat = insertedCategories.find((c) => c.slug === 'vinyl-records')!;

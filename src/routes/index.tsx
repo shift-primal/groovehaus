@@ -1,35 +1,17 @@
 import { Container } from '#/components/layout/Container';
 import { Button } from '#/components/shadcn/button';
+import { CATEGORIES } from '#/config/products';
 import { ProductsGrid } from '#/features/products/components/ProductsGrid';
 import { Link, createFileRoute } from '@tanstack/react-router';
-import { Disc3, Guitar, Piano, Tv2 } from 'lucide-react';
+import { Disc3, Guitar, KeyboardMusic, Turntable } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 
-const categories = [
-    {
-        name: 'Vinyl-plater',
-        icon: Disc3,
-        url: '/products?type=vinyl',
-        color: 'from-amber-950/40 to-transparent'
-    },
-    {
-        name: 'Gitarer',
-        icon: Guitar,
-        url: '/products?category=guitars',
-        color: 'from-emerald-950/40 to-transparent'
-    },
-    {
-        name: 'Platespillere',
-        icon: Tv2,
-        url: '/products?category=turntables',
-        color: 'from-sky-950/40 to-transparent'
-    },
-    {
-        name: 'MIDI-kontrollere',
-        icon: Piano,
-        url: '/products?category=midi-controllers',
-        color: 'from-violet-950/40 to-transparent'
-    }
-];
+const categoryMeta: Record<string, { icon: LucideIcon; color: string }> = {
+    'vinyl-records': { icon: Disc3, color: 'from-amber-950/40 to-transparent' },
+    'guitars': { icon: Guitar, color: 'from-emerald-950/40 to-transparent' },
+    'turntables': { icon: Turntable, color: 'from-sky-950/40 to-transparent' },
+    'midi-controllers': { icon: KeyboardMusic, color: 'from-violet-950/40 to-transparent' }
+};
 
 const HomePage = () => {
     return (
@@ -70,19 +52,25 @@ const HomePage = () => {
                         Kategorier
                     </h2>
                     <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-                        {categories.map(({ name, icon: Icon, url, color }) => (
-                            <Link
-                                key={name}
-                                to={url}
-                                className="group relative flex flex-col items-start justify-between rounded-xl border border-border bg-card p-5 min-h-32 overflow-hidden transition-colors hover:border-foreground/30"
-                            >
-                                <div
-                                    className={`absolute inset-0 bg-gradient-to-br ${color} opacity-0 group-hover:opacity-100 transition-opacity`}
-                                />
-                                <Icon className="size-6 text-muted-foreground group-hover:text-foreground transition-colors relative z-10" />
-                                <span className="text-sm font-semibold relative z-10">{name}</span>
-                            </Link>
-                        ))}
+                        {CATEGORIES.map(({ name, slug }) => {
+                            const { icon: Icon, color } = categoryMeta[slug];
+                            return (
+                                <Link
+                                    key={slug}
+                                    to="/products"
+                                    search={{ category: slug }}
+                                    className="group relative flex flex-col items-start justify-between rounded-xl border border-border bg-card p-5 min-h-32 overflow-hidden transition-colors hover:border-foreground/30"
+                                >
+                                    <div
+                                        className={`absolute inset-0 bg-linear-to-br ${color} opacity-0 group-hover:opacity-100 transition-opacity`}
+                                    />
+                                    <Icon className="size-6 text-muted-foreground group-hover:text-foreground transition-colors relative z-10" />
+                                    <span className="text-sm font-semibold relative z-10">
+                                        {name}
+                                    </span>
+                                </Link>
+                            );
+                        })}
                     </div>
                 </Container>
             </section>

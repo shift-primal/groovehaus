@@ -4,17 +4,13 @@ import { db } from '#/db';
 import type { GetProductsInput } from './products.schemas';
 import { normalizeSearch } from '#/lib/utils';
 
-export async function fetchCategories() {
-    return await db.select().from(categories);
-}
-
 export async function fetchProductBySlug(slug: string) {
     const [product] = await db.select().from(products).where(eq(products.slug, slug));
     return product ?? null;
 }
 
 export async function fetchProductsSearch(input: GetProductsInput) {
-    const { search, type, categoryId, minPrice, maxPrice, condition, page, limit } = input;
+    const { search, type, category, minPrice, maxPrice, condition, page, limit } = input;
     const where = [eq(products.active, true)];
 
     if (search) {
@@ -30,8 +26,16 @@ export async function fetchProductsSearch(input: GetProductsInput) {
         where.push(eq(products.type, type));
     }
 
-    if (categoryId) {
-        where.push(eq(products.categoryId, categoryId));
+    if (category) {
+        where.push(
+            eq(
+                products.categoryId,
+                db
+                    .select({ id: categories.id })
+                    .from(categories)
+                    .where(eq(categories.slug, category))
+            )
+        );
     }
 
     if (minPrice !== undefined && maxPrice !== undefined) {

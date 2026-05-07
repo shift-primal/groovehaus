@@ -8,7 +8,7 @@ export const getProductSchema = z.object({
 export const productsSearchSchema = z.object({
     search: z.string().optional(),
     type: z.enum(PRODUCT_TYPES).optional(),
-    categoryId: z.number().optional(),
+    category: z.string().optional(),
     minPrice: z.number().min(0).optional(),
     maxPrice: z.number().min(0).optional(),
     condition: z.enum(PRODUCT_CONDITIONS).array().optional(),

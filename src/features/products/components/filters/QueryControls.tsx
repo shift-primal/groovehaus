@@ -6,12 +6,9 @@ import {
     SearchFilter
 } from '#/features/products/components/filters';
 import { PriceFilter } from '#/features/products/components/filters/PriceFilter';
-import { useCategories } from '#/features/products/hooks/useCategories';
 import { SlidersHorizontal } from 'lucide-react';
 
 export const QueryControls = () => {
-    const { data: categories } = useCategories();
-
     return (
         <Sheet>
             <SheetTrigger asChild>
@@ -23,7 +20,7 @@ export const QueryControls = () => {
             <SheetContent side="left" className="flex flex-col">
                 <div className="flex-1 overflow-y-auto px-5 mt-10">
                     <SearchFilter />
-                    <CategoryFilter categories={categories} />
+                    <CategoryFilter />
                     <ConditionFilter />
                     <PriceFilter />
                 </div>
