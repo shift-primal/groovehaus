@@ -1,14 +1,18 @@
-import type { FooterProps } from '#/types/FooterTypes';
+import type { FooterProps } from '#/types/layoutTypes';
 import { Link } from '@tanstack/react-router';
 
-export const Footer = ({ props }: { props: FooterProps }) => {
-    const { logo, description, sections, copyright, legalLinks, maxSections } = props;
+export const Footer = ({
+    logo,
+    description,
+    sections,
+    copyright,
+    legalLinks,
+    maxSections
+}: FooterProps) => {
+    if (!logo?.text) return;
 
-    if (!logo) return;
-
+    const LogoText = logo.text;
     const visibleSections = (sections ?? []).slice(0, maxSections ?? 4);
-
-    const { text: LogoText } = logo;
 
     return (
         <div className="px-4 py-8">
@@ -32,7 +36,7 @@ export const Footer = ({ props }: { props: FooterProps }) => {
                             <ul className="space-y-4 text-sm text-muted-foreground">
                                 {section.links.map((link, linkIdx) => (
                                     <li key={linkIdx} className="font-medium hover:text-primary">
-                                        <Link to={link.href}>{link.name}</Link>
+                                        <Link to={link.url}>{link.title}</Link>
                                     </li>
                                 ))}
                             </ul>
@@ -44,7 +48,7 @@ export const Footer = ({ props }: { props: FooterProps }) => {
                     <ul className="flex gap-4">
                         {legalLinks?.map((link, linkIdx) => (
                             <li key={linkIdx} className="underline hover:text-primary">
-                                <Link to={link.href}>{link.name}</Link>
+                                <Link to={link.url}>{link.title}</Link>
                             </li>
                         ))}
                     </ul>

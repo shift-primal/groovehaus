@@ -13,25 +13,25 @@ export const footerProps = {
         {
             title: 'Butikk',
             links: [
-                { name: 'Vinyl-plater', href: '/products?type=vinyl' },
-                { name: 'Gitarer', href: '/products?type=gear&category=guitars' },
-                { name: 'Platespillere', href: '/products?type=gear&category=turntables' },
-                { name: 'MIDI-kontrollere', href: '/products?type=gear&category=midi-controllers' }
+                { title: 'Vinyl-plater', url: '/products?category=vinyl-records' },
+                { title: 'Gitarer', url: '/products?category=guitars' },
+                { title: 'Platespillere', url: '/products?category=turntables' },
+                { title: 'MIDI-kontrollere', url: '/products?category=midi-controllers' }
             ]
         },
         {
             title: 'Kundeservice',
             links: [
-                { name: 'Frakt & retur', href: '#' },
-                { name: 'Kontakt oss', href: '#' },
-                { name: 'FAQ', href: '#' }
+                { title: 'Frakt & retur', url: '/shipping-and-returns' },
+                { title: 'Kontakt oss', url: '/kontakt' },
+                { title: 'FAQ', url: '/faq' }
             ]
         }
     ],
     copyright: '© 2025 Groovehaus. Alle rettigheter forbeholdt.',
     legalLinks: [
-        { name: 'Vilkår og betingelser', href: '#' },
-        { name: 'Personvernerklæring', href: '#' }
+        { title: 'Vilkår og betingelser', url: '/terms-of-service' },
+        { title: 'Personvernerklæring', url: '/privacy' }
     ],
     maxSections: 4
 };

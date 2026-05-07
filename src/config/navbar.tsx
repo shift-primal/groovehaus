@@ -1,4 +1,13 @@
-import { Disc3, Guitar, KeyboardMusic, Package, Turntable } from 'lucide-react';
+import {
+    Disc3,
+    Guitar,
+    HelpCircle,
+    KeyboardMusic,
+    Mail,
+    Package,
+    Truck,
+    Turntable
+} from 'lucide-react';
 
 import logoIcon from '#/assets/groovehaus-logo-icon.svg?react';
 import logoText from '#/assets/groovehaus-logo-text.svg?react';
@@ -15,7 +24,7 @@ export const navBarProps = {
         { title: 'Hjem', url: '/' },
         {
             title: 'Produkter',
-            url: '#',
+            accordion: true,
             items: [
                 {
                     title: 'Alle',
@@ -50,20 +59,42 @@ export const navBarProps = {
             ]
         },
         {
-            title: 'Kontakt oss',
-            url: '#'
+            title: 'Kundeservice',
+            accordion: true,
+            items: [
+                {
+                    title: 'Kontakt oss',
+                    description: 'Send oss en melding, vi svarer raskt',
+                    icon: <Mail className="size-5 shrink-0" />,
+                    url: '/kontakt'
+                },
+                {
+                    title: 'Frakt & retur',
+                    description: 'Leveringstid, kostnader og returpolitikk',
+                    icon: <Truck className="size-5 shrink-0" />,
+                    url: '/shipping-and-returns'
+                },
+                {
+                    title: 'FAQ',
+                    description: 'Svar på de vanligste spørsmålene',
+                    icon: <HelpCircle className="size-5 shrink-0" />,
+                    url: '/faq'
+                }
+            ]
         },
+
         {
-            title: 'Om oss',
-            url: '#'
-        },
-        {
-            title: 'Terms of Service',
-            url: '#'
+            title: 'Info',
+            accordion: false,
+            items: [
+                { title: 'Om oss', url: '/about' },
+                { title: 'Vilkår', url: '/terms-of-service' },
+                { title: 'Personvern', url: '/privacy' }
+            ]
         }
     ],
     auth: {
-        login: { title: 'Login', url: '/auth/$pathname', params: { pathname: 'sign-in' } },
-        signup: { title: 'Sign up', url: '/auth/$pathname', params: { pathname: 'sign-up' } }
+        login: { title: 'Logg inn', url: '/auth/sign-in' },
+        signup: { title: 'Registrer deg', url: '/auth/sign-up' }
     }
 };

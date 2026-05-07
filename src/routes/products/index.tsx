@@ -1,3 +1,4 @@
+import { Container } from '#/components/layout/Container';
 import { QueryControls } from '#/features/products/components/filters';
 import { ProductsGrid } from '#/features/products/components/ProductsGrid';
 import { useProducts } from '#/features/products/hooks/useProducts';
@@ -12,7 +13,7 @@ const ProductsPage = () => {
     if (isLoading) return null;
 
     return (
-        <div>
+        <Container>
             <section className="border-b border-border mb-6 pb-6">
                 <div className="flex flex-col gap-y-4">
                     <div>
@@ -35,7 +36,7 @@ const ProductsPage = () => {
                 </div>
             </section>
             <ProductsGrid products={products ?? []} />
-        </div>
+        </Container>
     );
 };
 

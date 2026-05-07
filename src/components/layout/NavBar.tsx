@@ -9,7 +9,7 @@ import {
 } from '#/components/shadcn/sheet';
 import { Accordion } from '#/components/shadcn/accordion';
 import { renderMenuItem, renderMobileMenuItem } from '#/lib/renderUtils';
-import type { NavbarProps } from '#/types/NavBarTypes';
+import type { NavbarProps } from '#/types/layoutTypes';
 import { Menu } from 'lucide-react';
 import { SignedIn, SignedOut, UserButton } from '@neondatabase/auth/react';
 import { Link } from '@tanstack/react-router';
@@ -17,9 +17,9 @@ import { Link } from '@tanstack/react-router';
 export const NavBar = ({ props }: { props: NavbarProps }) => {
     const { logo, menu, auth } = props;
 
-    if (!logo || !menu || !auth) return;
+    if (!logo || !logo.icon || !logo.text || !menu || !auth) return;
 
-    const { icon: LogoIcon, text: LogoText } = logo;
+    const { text: LogoText, icon: LogoIcon } = logo;
 
     return (
         <div className="sticky top-0 z-50 px-8 py-4 backdrop-blur-lg border-b bg-background-lighter">
@@ -69,20 +69,22 @@ export const NavBar = ({ props }: { props: NavbarProps }) => {
                         <SheetContent className="overflow-y-auto">
                             <SheetHeader>
                                 <SheetTitle className="mt-12">
-                                    <Link to={logo.url} className="flex items-center gap-2">
-                                        <LogoText className="max-h-6 dark:invert w-auto" />
+                                    <Link to={logo.url}>
+                                        <LogoText className="max-h-6 dark:invert w-64" />
                                     </Link>
                                 </SheetTitle>
                             </SheetHeader>
-                            <div className="flex flex-col gap-6 p-4">
+                            <div className="p-4 h-full">
                                 <Accordion
                                     type="single"
                                     collapsible
-                                    className="flex w-full flex-col gap-4"
+                                    className="flex gap-y-8 h-full flex-col"
                                 >
                                     {menu.map((item) => renderMobileMenuItem(item))}
                                 </Accordion>
+                            </div>
 
+                            <div className="p-4 h-fit">
                                 <SignedOut>
                                     <div className="flex flex-col gap-3">
                                         <Button asChild variant="outline" size="sm">
