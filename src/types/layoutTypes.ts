@@ -12,7 +12,7 @@ interface BaseLogo {
 
 // NavBar
 //
-interface Logo extends BaseLogo {
+export interface Logo extends BaseLogo {
     icon?: React.FC<React.SVGProps<SVGSVGElement>>;
     text?: React.FC<React.SVGProps<SVGSVGElement>>;
 }
@@ -23,16 +23,21 @@ interface NavBarAuth {
 }
 
 export interface MenuItem extends Link {
-    accordion: boolean;
     description?: string;
     icon?: React.ReactNode;
+}
+
+export interface Menu {
+    title: string;
+    accordion?: boolean;
+    url?: string;
     items?: MenuItem[];
 }
 
 export interface NavbarProps {
     className?: string;
     logo?: Logo;
-    menu?: MenuItem[];
+    menu?: Menu[];
     auth?: NavBarAuth;
 }
 

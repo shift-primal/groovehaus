@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import { getProducts } from '#/features/products/server/products.functions';
+import { getProductsFn } from '#/features/products/server/products.api';
 import type { ProductsSearch } from '#/features/products/server/products.schemas';
 
 export const useProducts = (search: ProductsSearch) =>
     useQuery({
         queryKey: ['products', search],
-        queryFn: () => getProducts({ data: { ...search, page: search.page ?? 1 } }),
+        queryFn: () => getProductsFn({ data: { ...search, page: search.page ?? 1 } }),
         placeholderData: (prev) => prev
     });

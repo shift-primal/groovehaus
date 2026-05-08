@@ -57,11 +57,11 @@ function RootDocument({ children }: { children: React.ReactNode }) {
                 <TanStackQueryProvider>
                     <NeonAuthUIProvider authClient={authClient}>
                         <div className="flex flex-col min-h-screen w-full">
-                            <NavBar props={navBarProps} />
+                            <NavBar {...navBarProps} />
                             <main className="flex-1">
                                 <Container>{children}</Container>
                             </main>
-                            <Footer props={footerProps} />
+                            <Footer {...footerProps} />
                         </div>
                     </NeonAuthUIProvider>
                 </TanStackQueryProvider>

@@ -3,7 +3,6 @@ import logoText from '#/assets/groovehaus-logo-text.svg?react';
 export const footerProps = {
     logo: {
         url: '/',
-        icon: undefined,
         text: logoText,
         alt: 'logo',
         title: 'Groovehaus'

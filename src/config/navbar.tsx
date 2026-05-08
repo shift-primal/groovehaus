@@ -11,8 +11,9 @@ import {
 
 import logoIcon from '#/assets/groovehaus-logo-icon.svg?react';
 import logoText from '#/assets/groovehaus-logo-text.svg?react';
+import type { NavbarProps } from '#/types/layoutTypes';
 
-export const navBarProps = {
+export const navBarProps: NavbarProps = {
     logo: {
         url: '/',
         icon: logoIcon,
@@ -24,7 +25,6 @@ export const navBarProps = {
         { title: 'Hjem', url: '/' },
         {
             title: 'Produkter',
-            accordion: true,
             items: [
                 {
                     title: 'Alle',
@@ -66,7 +66,7 @@ export const navBarProps = {
                     title: 'Kontakt oss',
                     description: 'Send oss en melding, vi svarer raskt',
                     icon: <Mail className="size-5 shrink-0" />,
-                    url: '/kontakt'
+                    url: '/contact'
                 },
                 {
                     title: 'Frakt & retur',

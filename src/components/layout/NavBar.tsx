@@ -13,22 +13,29 @@ import type { NavbarProps } from '#/types/layoutTypes';
 import { Menu } from 'lucide-react';
 import { SignedIn, SignedOut, UserButton } from '@neondatabase/auth/react';
 import { Link } from '@tanstack/react-router';
+import { useState } from 'react';
+import { cn } from '#/lib/utils';
 
-export const NavBar = ({ props }: { props: NavbarProps }) => {
-    const { logo, menu, auth } = props;
-
+export const NavBar = ({ logo, menu, auth, className }: NavbarProps) => {
     if (!logo || !logo.icon || !logo.text || !menu || !auth) return;
 
     const { text: LogoText, icon: LogoIcon } = logo;
 
+    const [sheetOpen, setSheetOpen] = useState(false);
+
     return (
-        <div className="sticky top-0 z-50 px-8 py-4 backdrop-blur-lg border-b bg-background-lighter">
+        <div
+            className={cn(
+                'sticky top-0 z-50 px-8 py-4 backdrop-blur-lg border-b bg-background-lighter',
+                className
+            )}
+        >
             {/* Desktop Menu */}
             <nav className="hidden items-center justify-between lg:flex">
                 <div className="flex items-center gap-6">
                     {/* Logo */}
                     <Link to={logo.url} className="flex items-center gap-2">
-                        <LogoIcon className="h-8 w-auto" />
+                        <LogoIcon className="max-h-8 w-auto" />
                     </Link>
                     <div className="flex items-center">
                         <NavigationMenu>
@@ -60,13 +67,18 @@ export const NavBar = ({ props }: { props: NavbarProps }) => {
                     <Link to={logo.url} className="flex items-center gap-2">
                         <LogoIcon className="h-8 w-auto" />
                     </Link>
-                    <Sheet>
+                    <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
                         <SheetTrigger asChild>
                             <Button variant="outline" size="icon">
                                 <Menu className="size-4" />
                             </Button>
                         </SheetTrigger>
-                        <SheetContent className="overflow-y-auto">
+                        <SheetContent
+                            className="overflow-y-auto"
+                            onClick={(e) => {
+                                if ((e.target as HTMLElement).closest('a')) setSheetOpen(false);
+                            }}
+                        >
                             <SheetHeader>
                                 <SheetTitle className="mt-12">
                                     <Link to={logo.url}>

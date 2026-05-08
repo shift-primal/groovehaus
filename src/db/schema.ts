@@ -12,7 +12,8 @@ import {
     uuid,
     varchar,
     customType,
-    index
+    index,
+    unique
 } from 'drizzle-orm/pg-core';
 
 const tsvector = customType<{ data: string }>({
@@ -77,16 +78,20 @@ export const carts = pgTable('carts', {
     createdAt: timestamp('created_at').defaultNow()
 });
 
-export const cartItems = pgTable('cart_items', {
-    id: uuid('id').primaryKey().defaultRandom(),
-    cartId: uuid('cart_id')
-        .references(() => carts.id)
-        .notNull(),
-    productId: uuid('product_id')
-        .references(() => products.id)
-        .notNull(),
-    quantity: integer('quantity').notNull().default(1)
-});
+export const cartItems = pgTable(
+    'cart_items',
+    {
+        id: uuid('id').primaryKey().defaultRandom(),
+        cartId: uuid('cart_id')
+            .references(() => carts.id)
+            .notNull(),
+        productId: uuid('product_id')
+            .references(() => products.id)
+            .notNull(),
+        quantity: integer('quantity').notNull().default(1)
+    },
+    (t) => [unique().on(t.cartId, t.productId)]
+);
 
 export const orders = pgTable('orders', {
     id: uuid('id').primaryKey().defaultRandom(),

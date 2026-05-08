@@ -6,7 +6,7 @@ import {
     NavigationMenuTrigger
 } from '#/components/shadcn/navigation-menu';
 import { cn } from '#/lib/utils';
-import type { MenuItem } from '#/types/layoutTypes';
+import type { Menu, MenuItem } from '#/types/layoutTypes';
 import { Link } from '@tanstack/react-router';
 
 const SubMenuLink = ({ item, accordion }: { item: MenuItem; accordion: boolean }) => {
@@ -26,25 +26,25 @@ const SubMenuLink = ({ item, accordion }: { item: MenuItem; accordion: boolean }
     );
 };
 
-export const renderMobileMenuItem = (item: MenuItem) => {
-    if (item.items && item.accordion) {
+export const renderMobileMenuItem = (menu: Menu) => {
+    if (menu.items && menu.accordion) {
         return (
-            <AccordionItem key={item.title} value={item.title} className="space-y-4 shrink">
+            <AccordionItem key={menu.title} value={menu.title} className="space-y-4 shrink">
                 <AccordionTrigger className="text-md py-0 font-semibold hover:no-underline border-0">
-                    {item.title}
+                    {menu.title}
                 </AccordionTrigger>
                 <AccordionContent className="mt-2 h-fit">
-                    {item.items.map((subItem) => (
+                    {menu.items.map((subItem) => (
                         <SubMenuLink key={subItem.title} item={subItem} accordion={true} />
                     ))}
                 </AccordionContent>
             </AccordionItem>
         );
     }
-    if (item.items && !item.accordion) {
+    if (menu.items && !menu.accordion) {
         return (
             <div className="flex flex-col gap-3 flex-1 grow justify-end text-muted-foreground">
-                {item.items.map((subItem) => (
+                {menu.items.map((subItem) => (
                     <SubMenuLink key={subItem.title} item={subItem} accordion={false} />
                 ))}
             </div>
@@ -52,35 +52,37 @@ export const renderMobileMenuItem = (item: MenuItem) => {
     }
 
     return (
-        <a key={item.title} href={item.url} className="text-md font-semibold mb-4">
-            {item.title}
+        <a key={menu.title} href={menu.url ?? '/'} className="text-md font-semibold mb-4">
+            {menu.title}
         </a>
     );
 };
 
-export const renderMenuItem = (item: MenuItem) => {
-    if (item.items) {
+export const renderMenuItem = (menu: Menu) => {
+    if (menu.items) {
         return (
-            <NavigationMenuItem key={item.title}>
-                <NavigationMenuTrigger>{item.title}</NavigationMenuTrigger>
-                <NavigationMenuContent className="bg-popover text-popover-foreground">
-                    {item.items.map((subItem) => (
-                        <NavigationMenuLink asChild key={subItem.title} className="w-80">
-                            <SubMenuLink item={subItem} accordion={true} />
-                        </NavigationMenuLink>
-                    ))}
+            <NavigationMenuItem key={menu.title}>
+                <NavigationMenuTrigger>{menu.title}</NavigationMenuTrigger>
+                <NavigationMenuContent className="bg-popover text-popover-foreground w-full">
+                    <div className="flex flex-col p-2 min-w-80">
+                        {menu.items.map((subItem) => (
+                            <NavigationMenuLink asChild key={subItem.title} className="w-80">
+                                <SubMenuLink item={subItem} accordion={true} />
+                            </NavigationMenuLink>
+                        ))}
+                    </div>
                 </NavigationMenuContent>
             </NavigationMenuItem>
         );
     }
 
     return (
-        <NavigationMenuItem key={item.title}>
+        <NavigationMenuItem key={menu.title}>
             <NavigationMenuLink
-                href={item.url}
+                href={menu.url ?? '/'}
                 className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-accent-foreground"
             >
-                {item.title}
+                {menu.title}
             </NavigationMenuLink>
         </NavigationMenuItem>
     );
