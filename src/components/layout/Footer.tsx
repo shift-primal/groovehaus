@@ -44,7 +44,7 @@ export const Footer = ({
                     ))}
                 </div>
                 <div className="mt-8 flex flex-col justify-between gap-4 border-t border-border pt-8 text-xs font-medium text-muted-foreground md:flex-row md:items-center">
-                    <p>{copyright}</p>
+                    <span>{copyright}</span>
                     <ul className="flex gap-4">
                         {legalLinks?.map((link, linkIdx) => (
                             <li key={linkIdx} className="underline hover:text-primary">

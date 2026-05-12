@@ -1,13 +1,31 @@
 import { Badge } from '#/components/shadcn/badge';
 import { Button } from '#/components/shadcn/button';
 import type { Product } from '#/db/schema';
+import { useCart } from '#/features/cart/hooks/useCart';
 import { Reviews, VinylImage, Price, SpotifyAlbum } from '#/features/products/components/details';
 import { BackButton } from '#/features/products/components/details/BackButton';
 import { GearImage } from '#/features/products/components/details/GearImage';
-import { CircleCheck } from 'lucide-react';
+import { CircleCheck, ShoppingCart } from 'lucide-react';
 
-export const ProductDetails = ({ productData }: { productData: Product }) => {
-    const { artistName, spotifyAlbumId, imageUrl, manufacturer, name, price, rating } = productData;
+export const ProductDetails = ({
+    productData,
+    userId
+}: {
+    productData: Product;
+    userId: string | undefined;
+}) => {
+    const {
+        artistName,
+        spotifyAlbumId,
+        imageUrl,
+        manufacturer,
+        name,
+        price,
+        rating,
+        id: productId
+    } = productData;
+
+    const { addItem } = useCart(userId ?? '');
 
     return (
         <div className="container">
@@ -45,8 +63,9 @@ export const ProductDetails = ({ productData }: { productData: Product }) => {
                         <Price regular={price} />
                     </div>
                     <SpotifyAlbum albumId={spotifyAlbumId ?? undefined} />
-                    <Button size="lg" className="w-full">
-                        Buy now!
+                    <Button size="lg" className="w-full" onClick={() => addItem.mutate(productId)}>
+                        <ShoppingCart />
+                        Legg til i handlekurven
                     </Button>
                 </div>
             </div>

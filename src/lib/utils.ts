@@ -1,3 +1,4 @@
+import type { Cart } from '#/types/DbTypes';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -9,6 +10,9 @@ export const fmtPrice = (price: string | number): string => {
     const amt = typeof price === 'string' ? parseFloat(price) : price;
     return new Intl.NumberFormat('nb-NO', { style: 'currency', currency: 'NOK' }).format(amt);
 };
+
+export const calculateTotalCart = (cart: Cart): number =>
+    cart.reduce((acc, item) => acc + item.products.price * item.cart_items.quantity, 0);
 
 function normalize(input: string): string {
     return input.trim().toLowerCase().replaceAll('$', 's').normalize('NFKD').replaceAll(/[̀-ͯ]/g, '');

@@ -2,9 +2,11 @@ import {
     Disc3,
     Guitar,
     HelpCircle,
+    House,
     KeyboardMusic,
     Mail,
     Package,
+    ShoppingCart,
     Truck,
     Turntable
 } from 'lucide-react';
@@ -22,9 +24,11 @@ export const navBarProps: NavbarProps = {
         title: 'Groovehaus'
     },
     menu: [
-        { title: 'Hjem', url: '/' },
+        { title: 'Hjem', url: '/', icon: <House /> },
+        { title: 'Handlevogn', url: '/cart', icon: <ShoppingCart /> },
         {
             title: 'Produkter',
+            accordion: true,
             items: [
                 {
                     title: 'Alle',

@@ -5,7 +5,8 @@ import {
     SheetTrigger,
     SheetContent,
     SheetHeader,
-    SheetTitle
+    SheetTitle,
+    SheetDescription
 } from '#/components/shadcn/sheet';
 import { Accordion } from '#/components/shadcn/accordion';
 import { renderMenuItem, renderMobileMenuItem } from '#/lib/renderUtils';
@@ -13,7 +14,7 @@ import type { NavbarProps } from '#/types/layoutTypes';
 import { Menu } from 'lucide-react';
 import { SignedIn, SignedOut, UserButton } from '@neondatabase/auth/react';
 import { Link } from '@tanstack/react-router';
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import { cn } from '#/lib/utils';
 
 export const NavBar = ({ logo, menu, auth, className }: NavbarProps) => {
@@ -40,7 +41,9 @@ export const NavBar = ({ logo, menu, auth, className }: NavbarProps) => {
                     <div className="flex items-center">
                         <NavigationMenu>
                             <NavigationMenuList>
-                                {menu.map((item) => renderMenuItem(item))}
+                                {menu.map((item) => (
+                                    <Fragment key={item.title}>{renderMenuItem(item)}</Fragment>
+                                ))}
                             </NavigationMenuList>
                         </NavigationMenu>
                     </div>
@@ -56,7 +59,7 @@ export const NavBar = ({ logo, menu, auth, className }: NavbarProps) => {
                     </div>
                 </SignedOut>
                 <SignedIn>
-                    <UserButton />
+                    <UserButton size="icon" />
                 </SignedIn>
             </nav>
 
@@ -85,6 +88,9 @@ export const NavBar = ({ logo, menu, auth, className }: NavbarProps) => {
                                         <LogoText className="max-h-6 dark:invert w-64" />
                                     </Link>
                                 </SheetTitle>
+                                <SheetDescription asChild>
+                                    <h1 className="sr-only">Navigation menu</h1>
+                                </SheetDescription>
                             </SheetHeader>
                             <div className="p-4 h-full">
                                 <Accordion
@@ -92,7 +98,11 @@ export const NavBar = ({ logo, menu, auth, className }: NavbarProps) => {
                                     collapsible
                                     className="flex gap-y-8 h-full flex-col"
                                 >
-                                    {menu.map((item) => renderMobileMenuItem(item))}
+                                    {menu.map((item) => (
+                                        <Fragment key={item.title}>
+                                            {renderMobileMenuItem(item)}
+                                        </Fragment>
+                                    ))}
                                 </Accordion>
                             </div>
 
@@ -108,7 +118,7 @@ export const NavBar = ({ logo, menu, auth, className }: NavbarProps) => {
                                     </div>
                                 </SignedOut>
                                 <SignedIn>
-                                    <UserButton />
+                                    <UserButton size="icon" />
                                 </SignedIn>
                             </div>
                         </SheetContent>

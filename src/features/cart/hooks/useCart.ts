@@ -5,9 +5,11 @@ import {
     updateCartItemFn
 } from '#/features/cart/server/cart.api';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from '@tanstack/react-router';
 
 export const useCart = (userId: string) => {
     const queryClient = useQueryClient();
+    const navigate = useNavigate();
 
     const cart = useQuery({
         queryKey: ['cart', userId],
@@ -15,8 +17,12 @@ export const useCart = (userId: string) => {
     });
 
     const addItem = useMutation({
-        mutationFn: (productId: string) => addCartItemFn({ data: { userId, productId } }),
-        onSuccess: () => queryClient.invalidateQueries({ queryKey: ['cart', userId] })
+        mutationFn: (productId: string) => {
+            if (!userId) throw new Error('Not authenticated');
+            return addCartItemFn({ data: { userId, productId } });
+        },
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: ['cart', userId] }),
+        onError: () => navigate({ to: '/auth/$pathname', params: { pathname: 'sign-in' } })
     });
 
     const updateItem = useMutation({

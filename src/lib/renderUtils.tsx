@@ -29,7 +29,7 @@ const SubMenuLink = ({ item, accordion }: { item: MenuItem; accordion: boolean }
 export const renderMobileMenuItem = (menu: Menu) => {
     if (menu.items && menu.accordion) {
         return (
-            <AccordionItem key={menu.title} value={menu.title} className="space-y-4 shrink">
+            <AccordionItem value={menu.title} className="space-y-4 shrink">
                 <AccordionTrigger className="text-md py-0 font-semibold hover:no-underline border-0">
                     {menu.title}
                 </AccordionTrigger>
@@ -52,16 +52,16 @@ export const renderMobileMenuItem = (menu: Menu) => {
     }
 
     return (
-        <a key={menu.title} href={menu.url ?? '/'} className="text-md font-semibold mb-4">
+        <Link to={menu.url ?? '/'} className="text-md font-semibold mb-4">
             {menu.title}
-        </a>
+        </Link>
     );
 };
 
 export const renderMenuItem = (menu: Menu) => {
     if (menu.items) {
         return (
-            <NavigationMenuItem key={menu.title}>
+            <NavigationMenuItem>
                 <NavigationMenuTrigger>{menu.title}</NavigationMenuTrigger>
                 <NavigationMenuContent className="bg-popover text-popover-foreground w-full">
                     <div className="flex flex-col p-2 min-w-80">
@@ -77,7 +77,7 @@ export const renderMenuItem = (menu: Menu) => {
     }
 
     return (
-        <NavigationMenuItem key={menu.title}>
+        <NavigationMenuItem>
             <NavigationMenuLink
                 href={menu.url ?? '/'}
                 className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-accent-foreground"

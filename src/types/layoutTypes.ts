@@ -31,6 +31,7 @@ export interface Menu {
     title: string;
     accordion?: boolean;
     url?: string;
+    icon?: React.ReactNode;
     items?: MenuItem[];
 }
 

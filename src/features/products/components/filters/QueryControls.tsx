@@ -1,5 +1,11 @@
 import { Button } from '#/components/shadcn/button';
-import { Sheet, SheetContent, SheetTrigger } from '#/components/shadcn/sheet';
+import {
+    Sheet,
+    SheetContent,
+    SheetDescription,
+    SheetTitle,
+    SheetTrigger
+} from '#/components/shadcn/sheet';
 import {
     CategoryFilter,
     ConditionFilter,
@@ -18,6 +24,10 @@ export const QueryControls = () => {
                 </Button>
             </SheetTrigger>
             <SheetContent side="left" className="flex flex-col">
+                <SheetTitle className="sr-only">Søkefiltre</SheetTitle>
+                <SheetDescription className="sr-only">
+                    Søk og sorter etter produkter
+                </SheetDescription>
                 <div className="flex-1 overflow-y-auto px-5 mt-10">
                     <SearchFilter />
                     <CategoryFilter />
