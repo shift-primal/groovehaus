@@ -17,8 +17,10 @@ export const productsSearchSchema = z.object({
 });
 
 export const getProductsSchema = productsSearchSchema.extend({
-    limit: z.number().default(20)
+    limit: z.number().default(20),
+    sortBy: z.enum(['createdAt', 'name', 'price', 'rating']).default('createdAt'),
+    sortDir: z.enum(['asc', 'desc']).default('asc')
 });
 
-export type GetProductsInput = z.infer<typeof getProductsSchema>;
 export type ProductsSearch = z.infer<typeof productsSearchSchema>;
+export type GetProductsInput = z.infer<typeof getProductsSchema>;

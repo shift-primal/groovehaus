@@ -2,7 +2,6 @@ import {
     Disc3,
     Guitar,
     HelpCircle,
-    House,
     KeyboardMusic,
     Mail,
     Package,
@@ -14,6 +13,7 @@ import {
 import logoIcon from '#/assets/groovehaus-logo-icon.svg?react';
 import logoText from '#/assets/groovehaus-logo-text.svg?react';
 import type { NavbarProps } from '#/types/layoutTypes';
+import { ShoppingCartIcon } from '#/components/layout/ShoppingCartIcon';
 
 export const navBarProps: NavbarProps = {
     logo: {
@@ -23,9 +23,8 @@ export const navBarProps: NavbarProps = {
         alt: 'logo',
         title: 'Groovehaus'
     },
+    cart: { url: '/cart' },
     menu: [
-        { title: 'Hjem', url: '/', icon: <House /> },
-        { title: 'Handlevogn', url: '/cart', icon: <ShoppingCart /> },
         {
             title: 'Produkter',
             accordion: true,

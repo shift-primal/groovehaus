@@ -22,6 +22,7 @@ export const ProductDetails = ({
         name,
         price,
         rating,
+        stock,
         id: productId
     } = productData;
 
@@ -53,10 +54,12 @@ export const ProductDetails = ({
                                         rating={rating!.rating}
                                         reviewers={rating!.reviewers}
                                     />
-                                    <Badge variant="secondary">
-                                        <CircleCheck />
-                                        In Stock
-                                    </Badge>
+                                    {stock > 0 && (
+                                        <Badge variant="secondary">
+                                            <CircleCheck />
+                                            {stock} stk på lager!
+                                        </Badge>
+                                    )}
                                 </div>
                             </div>
                         </div>

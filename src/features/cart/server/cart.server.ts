@@ -15,15 +15,22 @@ export async function fetchCart(input: GetCartInput) {
         .select()
         .from(cartItems)
         .innerJoin(products, eq(cartItems.productId, products.id))
-        .where(eq(cartItems.cartId, cart.id));
+        .where(eq(cartItems.cartId, cart.id))
+        .orderBy(cartItems.createdAt);
 
     return cartItemsWithProducts;
 }
 
 export async function addCartItem(input: AddCartItemInput) {
     const cart = await getOrCreateCart(input.userId);
+
     const [product] = await db.select().from(products).where(eq(products.id, input.productId));
-    if (!product || product.stock < 1) throw new Error('Out of stock');
+    const [existingItem] = await db
+        .select()
+        .from(cartItems)
+        .where(and(eq(cartItems.cartId, cart.id), eq(cartItems.productId, input.productId)));
+
+    if ((existingItem?.quantity ?? 0) + 1 > product.stock) throw new Error('Not enough stock');
 
     const [newItem] = await db
         .insert(cartItems)
@@ -39,6 +46,11 @@ export async function addCartItem(input: AddCartItemInput) {
 
 export async function updateCartItem(input: UpdateCartItemInput) {
     const cart = await getOrCreateCart(input.userId);
+
+    const [item] = await db.select().from(cartItems).where(eq(cartItems.id, input.cartItemId));
+    const [product] = await db.select().from(products).where(eq(products.id, item.productId));
+
+    if (input.qty > product.stock) throw new Error('Not enough stock');
 
     await db
         .update(cartItems)

@@ -25,6 +25,8 @@ export const Cart = ({ userId }: { userId: string }) => {
                                 slug: item.products.slug,
                                 imageUrl: item.products.imageUrl!,
                                 name: item.products.name,
+                                artistName: item.products.artistName ?? undefined,
+                                manufacturer: item.products.manufacturer ?? undefined,
                                 price: item.products.price,
                                 quantity: item.cart_items.quantity
                             }}

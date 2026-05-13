@@ -14,6 +14,7 @@ import { navBarProps } from '#/config/navbar';
 
 import { authClient } from '#/lib/auth';
 import { Container } from '#/components/layout/Container';
+import { Toaster } from '#/components/shadcn/sonner';
 
 interface MyRouterContext {
     queryClient: QueryClient;
@@ -62,6 +63,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
                                 <Container>{children}</Container>
                             </main>
                             <Footer {...footerProps} />
+                            <Toaster />
                         </div>
                     </NeonAuthUIProvider>
                 </TanStackQueryProvider>

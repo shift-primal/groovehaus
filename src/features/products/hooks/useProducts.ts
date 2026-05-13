@@ -1,10 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
 import { getProductsFn } from '#/features/products/server/products.api';
-import type { ProductsSearch } from '#/features/products/server/products.schemas';
+import {
+    getProductsSchema,
+    type GetProductsInput
+} from '#/features/products/server/products.schemas';
 
-export const useProducts = (search: ProductsSearch) =>
-    useQuery({
+export const useProducts = (search: Partial<GetProductsInput>) => {
+    const parsedSearch = getProductsSchema.parse(search);
+    return useQuery({
         queryKey: ['products', search],
-        queryFn: () => getProductsFn({ data: { ...search, page: search.page ?? 1 } }),
+        queryFn: () => getProductsFn({ data: parsedSearch }),
         placeholderData: (prev) => prev
     });
+};

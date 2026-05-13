@@ -14,6 +14,9 @@ export const fmtPrice = (price: string | number): string => {
 export const calculateTotalCart = (cart: Cart): number =>
     cart.reduce((acc, item) => acc + item.products.price * item.cart_items.quantity, 0);
 
+export const countTotalCartItems = (cart: Cart): number =>
+    cart.reduce((acc, item) => acc + item.cart_items.quantity, 0) ?? 0;
+
 function normalize(input: string): string {
     return input.trim().toLowerCase().replaceAll('$', 's').normalize('NFKD').replaceAll(/[̀-ͯ]/g, '');
 }

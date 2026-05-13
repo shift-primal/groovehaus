@@ -2,6 +2,7 @@ import { Container } from '#/components/layout/Container';
 import { Button } from '#/components/shadcn/button';
 import { CATEGORIES } from '#/config/products';
 import { ProductsGrid } from '#/features/products/components/ProductsGrid';
+import { useNewArrivals } from '#/features/products/hooks/useNewArrivals';
 import { Link, createFileRoute } from '@tanstack/react-router';
 import { Disc3, Guitar, KeyboardMusic, Turntable } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
@@ -14,6 +15,11 @@ const categoryMeta: Record<string, { icon: LucideIcon; color: string }> = {
 };
 
 const HomePage = () => {
+    const { data, isLoading } = useNewArrivals(4);
+    const newArrivals = data?.products;
+
+    if (isLoading) return null;
+
     return (
         <div>
             {/* Hero */}
@@ -78,16 +84,17 @@ const HomePage = () => {
             {/* New arrivals */}
             <section>
                 <Container>
-                    <div className="flex items-baseline justify-between mb-6">
+                    <div className="flex flex-col gap-2 items-baseline justify-between mb-6">
                         <h2
-                            className="text-2xl md:text-3xl font-bold"
+                            className="text-2xl md:text-3xl font-bold mb-4"
                             style={{ fontFamily: 'Fraunces, serif' }}
                         >
                             Nye ankomster
                         </h2>
+                        <ProductsGrid products={newArrivals ?? []} />
                         <Link
                             to="/products"
-                            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                            className="text-sm text-muted-foreground hover:text-foreground transition-colors pl-2 mt-4"
                         >
                             Se alle →
                         </Link>

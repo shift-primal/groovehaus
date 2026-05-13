@@ -1,3 +1,5 @@
+import type { ShoppingCartIconProps } from '#/components/layout/ShoppingCartIcon';
+
 export interface Link {
     title: string;
     url: string;
@@ -38,6 +40,7 @@ export interface Menu {
 export interface NavbarProps {
     className?: string;
     logo?: Logo;
+    cart: ShoppingCartIconProps;
     menu?: Menu[];
     auth?: NavBarAuth;
 }

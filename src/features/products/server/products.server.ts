@@ -1,5 +1,5 @@
 import { categories, products } from '#/db/schema';
-import { and, between, eq, inArray, sql, gte, lte } from 'drizzle-orm';
+import { and, between, eq, inArray, sql, gte, lte, asc, desc } from 'drizzle-orm';
 import { db } from '#/db';
 import type { GetProductsInput } from './products.schemas';
 import { normalizeSearch } from '#/lib/utils';
@@ -10,7 +10,16 @@ export async function fetchProductBySlug(slug: string) {
 }
 
 export async function fetchProductsSearch(input: GetProductsInput) {
-    const { search, type, category, minPrice, maxPrice, condition, page, limit } = input;
+    const { search, type, category, minPrice, maxPrice, condition, page, limit, sortBy, sortDir } =
+        input;
+
+    const columnMap = {
+        createdAt: products.createdAt,
+        name: products.name,
+        price: products.price,
+        rating: products.rating
+    };
+
     const where = [eq(products.active, true)];
 
     if (search) {
@@ -56,7 +65,8 @@ export async function fetchProductsSearch(input: GetProductsInput) {
             .from(products)
             .where(and(...where))
             .limit(limit)
-            .offset((page - 1) * limit),
+            .offset((page - 1) * limit)
+            .orderBy(sortDir === 'desc' ? desc(columnMap[sortBy]) : asc(columnMap[sortBy])),
         db
             .select({ count: sql<number>`count(*)::int` })
             .from(products)

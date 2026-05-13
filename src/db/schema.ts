@@ -88,7 +88,8 @@ export const cartItems = pgTable(
         productId: uuid('product_id')
             .references(() => products.id)
             .notNull(),
-        quantity: integer('quantity').notNull().default(1)
+        quantity: integer('quantity').notNull().default(1),
+        createdAt: timestamp('created_at').defaultNow()
     },
     (t) => [unique().on(t.cartId, t.productId)]
 );
