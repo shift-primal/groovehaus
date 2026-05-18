@@ -27,6 +27,7 @@ interface NavBarAuth {
 export interface MenuItem extends Link {
     description?: string;
     icon?: React.ReactNode;
+    iconOnMobile?: boolean;
 }
 
 export interface Menu {

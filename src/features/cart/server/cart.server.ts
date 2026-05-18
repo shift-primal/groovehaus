@@ -52,6 +52,11 @@ export async function updateCartItem(input: UpdateCartItemInput) {
 
     if (input.qty > product.stock) throw new Error('Not enough stock');
 
+    if (input.qty <= 0) {
+        await db.delete(cartItems).where(eq(cartItems.id, input.cartItemId));
+        return;
+    }
+
     await db
         .update(cartItems)
         .set({ quantity: input.qty })

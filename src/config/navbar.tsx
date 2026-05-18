@@ -1,11 +1,13 @@
 import {
+    Cookie,
     Disc3,
     Guitar,
     HelpCircle,
+    Info,
     KeyboardMusic,
     Mail,
     Package,
-    ShoppingCart,
+    Scroll,
     Truck,
     Turntable
 } from 'lucide-react';
@@ -13,7 +15,6 @@ import {
 import logoIcon from '#/assets/groovehaus-logo-icon.svg?react';
 import logoText from '#/assets/groovehaus-logo-text.svg?react';
 import type { NavbarProps } from '#/types/layoutTypes';
-import { ShoppingCartIcon } from '#/components/layout/ShoppingCartIcon';
 
 export const navBarProps: NavbarProps = {
     logo: {
@@ -90,9 +91,27 @@ export const navBarProps: NavbarProps = {
             title: 'Info',
             accordion: false,
             items: [
-                { title: 'Om oss', url: '/about' },
-                { title: 'Vilkår', url: '/terms-of-service' },
-                { title: 'Personvern', url: '/privacy' }
+                {
+                    title: 'Om oss',
+                    url: '/about',
+                    icon: <Info className="size-5 shrink-0" />,
+                    description: 'Hvem vi er og hva vi brenner for',
+                    iconOnMobile: false
+                },
+                {
+                    title: 'Vilkår',
+                    url: '/terms-of-service',
+                    icon: <Scroll className="size-5 shrink-0" />,
+                    description: 'Regler og betingelser for handel',
+                    iconOnMobile: false
+                },
+                {
+                    title: 'Personvern',
+                    url: '/privacy',
+                    icon: <Cookie className="size-5 shrink-0" />,
+                    description: 'Slik håndterer vi dine opplysninger',
+                    iconOnMobile: false
+                }
             ]
         }
     ],

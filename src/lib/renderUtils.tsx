@@ -26,6 +26,17 @@ const SubMenuLink = ({ item, accordion }: { item: MenuItem; accordion: boolean }
     );
 };
 
+const SubMenuLinkNoIcon = ({ item, accordion }: { item: MenuItem; accordion: boolean }) => {
+    const baseCn =
+        'flex w-full flex-row rounded-md leading-none decoration-0 p-2 transition-colors outline-none select-none hover:bg-muted hover:text-accent-foreground';
+
+    return (
+        <Link className={cn(baseCn, accordion ? 'gap-4 p-3' : '')} to={item.url}>
+            <div className="text-sm font-semibold">{item.title}</div>
+        </Link>
+    );
+};
+
 export const renderMobileMenuItem = (menu: Menu) => {
     if (menu.items && menu.accordion) {
         return (
@@ -44,18 +55,16 @@ export const renderMobileMenuItem = (menu: Menu) => {
     if (menu.items && !menu.accordion) {
         return (
             <div className="flex flex-col gap-3 flex-1 grow justify-end text-muted-foreground">
-                {menu.items.map((subItem) => (
-                    <SubMenuLink key={subItem.title} item={subItem} accordion={false} />
-                ))}
+                {menu.items.map((subItem) => {
+                    return subItem.iconOnMobile ? (
+                        <SubMenuLink key={subItem.title} item={subItem} accordion={false} />
+                    ) : (
+                        <SubMenuLinkNoIcon key={subItem.title} item={subItem} accordion={false} />
+                    );
+                })}
             </div>
         );
     }
-
-    return (
-        <Link to={menu.url ?? '/'} className="text-md font-semibold mb-4">
-            {menu.title}
-        </Link>
-    );
 };
 
 export const renderMenuItem = (menu: Menu) => {

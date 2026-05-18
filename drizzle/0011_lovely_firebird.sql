@@ -1,0 +1,1 @@
+ALTER TABLE "cart_items" ADD COLUMN "created_at" timestamp DEFAULT now();

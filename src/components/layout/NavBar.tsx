@@ -67,7 +67,10 @@ export const NavBar = ({ logo, menu, auth, cart, className }: NavbarProps) => {
                     </div>
                 </SignedOut>
                 <SignedIn>
-                    <UserButton size="icon" />
+                    <div className="flex items-center gap-x-6">
+                        <ShoppingCartIcon url={cart.url} quantity={cartCount} />
+                        <UserButton size="icon" />
+                    </div>
                 </SignedIn>
             </nav>
 

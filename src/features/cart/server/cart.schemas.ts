@@ -8,7 +8,7 @@ export const addCartItemSchema = getCartSchema.extend({ productId: z.uuid() });
 
 export const updateCartItemSchema = getCartSchema.extend({
     cartItemId: z.uuid(),
-    qty: z.number().int().min(1)
+    qty: z.number().int().min(0)
 });
 
 export const removeCartItemSchema = getCartSchema.extend({ cartItemId: z.uuid() });

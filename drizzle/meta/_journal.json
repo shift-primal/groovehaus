@@ -78,6 +78,13 @@
       "when": 1778245451276,
       "tag": "0010_giant_selene",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1778947854325,
+      "tag": "0011_lovely_firebird",
+      "breakpoints": true
     }
   ]
 }
